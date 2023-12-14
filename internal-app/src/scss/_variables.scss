@@ -1,0 +1,22 @@
+@import "./_colors.scss";
+
+$primary-light: $light-grey;
+$primary-dark: $primary-black;
+
+$primary-grey: $dark-grey;
+$secondary-grey: $medium-grey;
+
+$primary-box-shadow: 0 0 0 0.2rem rgba(101, 120, 101, 0.25);
+$primary-dark-box-shadow: 0 2px 4px -1px rgba(20, 23, 20, 0.20), 0px 4px 5px 0px rgba(20, 23, 20, 0.14), 0px 1px 10px 0px rgba(20, 23, 20, 0.22);
+
+$primary-border: 1px solid rgba(38, 89, 43, 0.43);
+$primary-border-radius: 0.25rem;
+
+$primary-info: $medium-blue;
+$primary-warning: $light-orange;
+$primary-error: $medium-red;
+$primary-success: $medium-green;
+
+$primary-window-height: calc(100vh - 56px);
+
+$medium-width-query: 70rem;
