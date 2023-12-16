@@ -30,7 +30,10 @@ export const load = (async ({cookies}) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-    createRole: async ({request, cookies}: RequestEvent): Promise<ResponseDto> => {
+    createRole: async ({
+                           request,
+                           cookies
+                       }: RequestEvent): Promise<ResponseDto> => {
         const data: FormData = await request.formData();
         const name: FormDataEntryValue | null = data.get("name");
         const description: FormDataEntryValue | null = data.get("description");
@@ -49,13 +52,17 @@ export const actions = {
             },
         });
     },
-    
-    updateRole: async ({request, cookies}: RequestEvent): Promise<ResponseDto> => {
+
+    updateRole: async ({
+                           request,
+                           cookies
+                       }: RequestEvent): Promise<ResponseDto> => {
         const data: FormData = await request.formData();
         const id: FormDataEntryValue | null = data.get("id");
         const name: FormDataEntryValue | null = data.get("name");
         const description: FormDataEntryValue | null = data.get("description");
         const permissions: FormDataEntryValue | null = JSON.parse(<string>data.get("permissions"));
+        const users: FormDataEntryValue | null = JSON.parse(<string>data.get("users"));
 
         return await fetchRequest({
             url: `${serverVariable.serverPath}internal/authorization/role/${id}`,
@@ -66,7 +73,8 @@ export const actions = {
             body: {
                 name,
                 description,
-                permissions
+                permissions,
+                users
             },
         });
     }

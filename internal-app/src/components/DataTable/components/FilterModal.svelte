@@ -1,16 +1,16 @@
 <script lang="ts">
-    import {clickOutside} from "$directives/clickOutside";
-    import type {GridColumnDef} from "../types/GridColumnDef";
-    import {QueryFilter} from "../enums/QueryFilter";
-    import type {Filter} from "../types/Filter";
-    import {determineFilterType, getColumn} from "../helpers/FilterHelper";
-    import {filterIndex} from "../helpers/QueryHelper";
-    import Input from "../../Input/index.svelte";
-    import Select from "../../Select/index.svelte";
-    import Button from "../../Button/index.svelte";
-    import {StyleType} from "$lib/global/enums/StyleType";
+	import {clickOutside} from "$directives/clickOutside";
+	import type {GridColumnDef} from "../types/GridColumnDef";
+	import {QueryFilter} from "../enums/QueryFilter";
+	import type {Filter} from "../types/Filter";
+	import {determineFilterType, getColumn} from "../helpers/FilterHelper";
+	import {filterIndex} from "../helpers/QueryHelper";
+	import Input from "../../Input/index.svelte";
+	import Select from "../../Select/index.svelte";
+	import Button from "../../Button/index.svelte";
+	import {StyleType} from "$lib/global/enums/StyleType";
 
-    export let columns: GridColumnDef[] = [];
+	export let columns: GridColumnDef[] = [];
     export let isModelOpen: boolean;
     export let filter: Filter;
 
@@ -50,33 +50,33 @@
      on:click_outside={closeFilterModal}
      use:clickOutside={{ignore: 'filter'}}>
 
-	<Select label="Column"
-	        onChange={onColumnChange}
-	        value={filterColumn.field}>
-		{#each columns as column}
-			<option value={column.field}>{column.headerName}</option>
-		{/each}
-	</Select>
+    <Select changeEvent={onColumnChange}
+            label="Column"
+            value={filterColumn.field}>
+        {#each columns as column}
+            <option value={column.field}>{column.headerName}</option>
+        {/each}
+    </Select>
 
-	<Select bind:value={filter.operator}
-	        label="Operator"
-	        onChange={onOperatorChange}>
-		{#each Object.values(QueryFilter) as filter}
-			<option value={filter}>{filterIndex[filter]}</option>
-		{/each}
-	</Select>
+    <Select bind:value={filter.operator}
+            changeEvent={onOperatorChange}
+            label="Operator">
+        {#each Object.values(QueryFilter) as filter}
+            <option value={filter}>{filterIndex[filter]}</option>
+        {/each}
+    </Select>
 
-	<Input bind:type={filterValueType}
-	       bind:value={filterValue}
-	       label="Value"
-	       styleType={StyleType.BLANK}/>
+    <Input bind:type={filterValueType}
+           bind:value={filterValue}
+           label="Value"
+           styleType={StyleType.BLANK}/>
 
-	<div class="button__container">
-		<Button onClick={saveFilter}
-		        title="Done"/>
-	</div>
+    <div class="button__container">
+        <Button onClick={saveFilter}
+                title="Done"/>
+    </div>
 
-	<div class="pointer"></div>
+    <div class="pointer"></div>
 </div>
 
 <style lang="scss">

@@ -28,27 +28,28 @@
 
 <table>
     <thead>
-    <tr>
-        <th></th>
-        {#each permissionTypes as permissionType}
-            <th>{camelCaseToNormal(permissionType)}</th>
-        {/each}
-    </tr>
+        <tr>
+            <th></th>
+            {#each permissionTypes as permissionType}
+                <th>{camelCaseToNormal(permissionType)}</th>
+            {/each}
+        </tr>
     </thead>
 
     <tbody>
-    {#each permissionNames as permissionName}
-        <tr>
-            <td class="permission_name">
-                {camelCaseToNormal(permissionName)}
-            </td>
+        {#each permissionNames as permissionName}
+            <tr>
+                <td class="permission_name">
+                    {camelCaseToNormal(permissionName)}
+                </td>
 
-            {#each permissionTypes as permissionType}
-                <PermissionCheckbox
-                        permission={filterPermission(permissionName, permissionType)}/>
-            {/each}
-        </tr>
-    {/each}
+                {#each permissionTypes as permissionType}
+                    <PermissionCheckbox
+                        permission={filterPermission(permissionName, permissionType)}
+                    />
+                {/each}
+            </tr>
+        {/each}
     </tbody>
 </table>
 

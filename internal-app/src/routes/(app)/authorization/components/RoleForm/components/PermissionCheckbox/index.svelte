@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type {Permission} from "$lib/authorization/types/Permission";
-	import {currentRole} from "../../../../stores/currentRole";
-	import {page} from "$app/stores";
+    import type {Permission} from "$lib/authorization/types/Permission";
+    import {currentRole} from "../../../../stores/currentRole";
+    import {page} from "$app/stores";
 
-	export let permission: Permission;
+    export let permission: Permission;
 
     const isChecked = (): boolean => {
         if (!permission || !$currentRole?.permissions) return false;
@@ -28,6 +28,7 @@
         if (target.checked) {
             currentRole.set({
                 ...$currentRole,
+                users: [...$currentRole?.users],
                 permissions: [...$currentRole?.permissions, permission]
             });
 
@@ -36,6 +37,7 @@
 
         currentRole.set({
             ...$currentRole,
+            users: [...$currentRole?.users],
             permissions: [...$currentRole?.permissions.filter(
                 (perm: Permission) => perm.id !== permission.id,
             )]
@@ -45,11 +47,11 @@
 
 <td class="container">
     <input
-            checked={isChecked()}
-            disabled={isDisabled()}
-            on:change={updateRolePermission}
-            type="checkbox"
-            value={`${isChecked()}`}
+        checked={isChecked()}
+        disabled={isDisabled()}
+        on:change={updateRolePermission}
+        type="checkbox"
+        value={`${isChecked()}`}
     />
 </td>
 

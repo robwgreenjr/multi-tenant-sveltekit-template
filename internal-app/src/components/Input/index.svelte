@@ -7,8 +7,6 @@
     export let label = "";
     export let name = "";
     export let placeholder = "";
-    export let onChange = () => {};
-    export let onInput = () => {};
     export let styleType: StyleType = StyleType.PRIMARY;
     export let type = "text";
     export let value = "";
@@ -36,8 +34,8 @@
            bind:value
            id={name}
            name={name}
-           on:change={onChange}
-           on:input={onInput}
+           on:change
+           on:input
            placeholder={placeholder ?? ""}>
 </label>
 

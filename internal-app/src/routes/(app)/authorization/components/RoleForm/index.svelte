@@ -29,6 +29,20 @@
             currentRole.set(data.data[0]);
         }
     }
+
+    const onDescriptionChange = (event: Event): void => {
+        const target = (event.target as HTMLInputElement);
+        if (!$currentRole) return;
+
+        currentRole.set({...$currentRole, description: target.value});
+    }
+
+    const onNameChange = (event: Event): void => {
+        const target = (event.target as HTMLInputElement);
+        if (!$currentRole) return;
+
+        currentRole.set({...$currentRole, name: target.value});
+    }
 </script>
 
 <Drawer onClose={() => currentRole.set(null)}
@@ -40,8 +54,9 @@
                   if ($currentRole?.id) {
                     formData.set("id", $currentRole.id.toString());
                   }
-                  
+
                   formData.set("permissions", JSON.stringify($currentRole?.permissions));
+                  formData.set("users", JSON.stringify($currentRole?.users));
 
 	              return ({ result, update }) => {
                       handleResult(result);
@@ -50,20 +65,26 @@
 	              };
               }}>
 
-            <Input name="name"
-                   value={$currentRole.name ?? null}
-                   label="Name"/>
+            <Input
+                label="Name"
+                name="name"
+                on:change={onNameChange}
+                value={$currentRole.name ?? null}
+            />
 
-            <Input name="description"
-                   value={$currentRole.description ?? null}
-                   label="Description"/>
+            <Input
+                label="Description"
+                name="description"
+                on:change={onDescriptionChange}
+                value={$currentRole.description ?? null}
+            />
 
             <PermissionSelection/>
 
             <Button
-                    title="Save"
-                    type={ButtonType.SUBMIT}
-                    styleType={StyleType.PRIMARY_CTA}
+                title="Save"
+                type={ButtonType.SUBMIT}
+                styleType={StyleType.PRIMARY_CTA}
             />
         </form>
     {/if}
