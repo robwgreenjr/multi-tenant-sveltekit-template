@@ -1,19 +1,17 @@
 <script lang="ts">
     import {sideMenu} from "$stores/layouts/sideMenu";
-	import {camelCaseToNormal, isString} from "$lib/global/utilities/StringParser";
+    import {camelCaseToNormal} from "$lib/global/utilities/StringParser";
     import Logout from "$layouts/Logout/index.svelte";
 
     import {page} from '$app/stores';
-	import type {PageLink} from "$lib/global/types/PageLink";
+    import type {PageLink} from "$lib/global/types/PageLink";
 
     let pageList: PageLink[];
     $: {
-		const pageScopes: string[] = Array.from(new Set(
-				($page.data.jwt.scopes?.split(",") || [])
-						.filter(isString)
-						.filter((item: string) => item.includes("page"))
-		));
-
+        const pageScopes: string[] = Array.from(new Set(
+            $page.data.jwt.scopes?.split(",").filter((item: string) => item.includes("page"))
+        ));
+        
         pageList = pageScopes.map((item: string) => {
             const page = item.split(".")[0];
 
@@ -31,17 +29,17 @@
 </script>
 
 <div class="container">
-	<ul>
-		{#each pageList as page}
-			<li>
-				<a on:click={() => sideMenu.set(!$sideMenu)}
-				   href="/{page.link}">{page.title}</a>
-			</li>
-		{/each}
-	</ul>
-	<div class="bottom__container">
-		<Logout cssClass="position: relative; top: 30%;"/>
-	</div>
+    <ul>
+        {#each pageList as page}
+            <li>
+                <a on:click={() => sideMenu.set(!$sideMenu)}
+                   href="/{page.link}">{page.title}</a>
+            </li>
+        {/each}
+    </ul>
+    <div class="bottom__container">
+        <Logout cssClass="position: relative; top: 30%;"/>
+    </div>
 </div>
 
 <style lang="scss">

@@ -4,6 +4,7 @@ import type {Actions} from "$types/(app)/user-account/$types";
 import {fetchRequest} from "$lib/global/helpers/RequestHelper";
 import {serverVariable} from "$lib/global/variables/ServerVariable";
 import {HttpMethod} from "$lib/global/enums/HttpMethod";
+import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
 
 export const load = (async () => {
     return {
@@ -12,9 +13,9 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-    submitUserAccountForm: async ({request}: RequestEvent) => {
+    submitUserAccountForm: async ({request}: RequestEvent): Promise<ResponseDto> => {
         const data: FormData = await request.formData();
-        const id: FormDataEntryValue | null = await data.get("id");
+        const id: FormDataEntryValue | null = data.get("id");
         const firstName: FormDataEntryValue | null = data.get("firstName");
         const lastName: FormDataEntryValue | null = data.get("lastName");
         const email: FormDataEntryValue | null = data.get("email");

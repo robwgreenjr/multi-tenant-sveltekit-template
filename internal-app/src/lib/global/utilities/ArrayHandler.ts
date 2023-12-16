@@ -1,7 +1,3 @@
-export const sortList = (a: string, b: string) => {
-    return a.toLowerCase() < b.toLowerCase()
-        ? -1
-        : a.toLowerCase() > b.toLowerCase()
-        ? 1
-        : 0;
+export const sortList = (a: string, b: string): number => {
+    return a.localeCompare(b);
 };

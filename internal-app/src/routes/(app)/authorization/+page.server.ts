@@ -3,6 +3,7 @@ import {fetchRequest} from "$lib/global/helpers/RequestHelper";
 import {serverVariable} from "$lib/global/variables/ServerVariable";
 import {HttpMethod} from "$lib/global/enums/HttpMethod";
 import type {RequestEvent} from "@sveltejs/kit";
+import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
 
 export const load = (async ({cookies}) => {
     const roles = await fetchRequest({
@@ -29,14 +30,11 @@ export const load = (async ({cookies}) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-    createRole: async ({request, cookies}: RequestEvent) => {
+    createRole: async ({request, cookies}: RequestEvent): Promise<ResponseDto> => {
         const data: FormData = await request.formData();
-        const name: FormDataEntryValue | null = await data.get("name");
-        const description: FormDataEntryValue | null = await data.get(
-            "description");
-        const permissions: FormDataEntryValue | null = JSON.parse(
-            <string>await data.get(
-                "permissions"));
+        const name: FormDataEntryValue | null = data.get("name");
+        const description: FormDataEntryValue | null = data.get("description");
+        const permissions: FormDataEntryValue | null = JSON.parse(<string>data.get("permissions"));
 
         return await fetchRequest({
             url: `${serverVariable.serverPath}internal/authorization/role`,
@@ -51,15 +49,13 @@ export const actions = {
             },
         });
     },
-    updateRole: async ({request, cookies}: RequestEvent) => {
+    
+    updateRole: async ({request, cookies}: RequestEvent): Promise<ResponseDto> => {
         const data: FormData = await request.formData();
-        const id: FormDataEntryValue | null = await data.get("id");
-        const name: FormDataEntryValue | null = await data.get("name");
-        const description: FormDataEntryValue | null = await data.get(
-            "description");
-        const permissions: FormDataEntryValue | null = JSON.parse(
-            <string>await data.get(
-                "permissions"));
+        const id: FormDataEntryValue | null = data.get("id");
+        const name: FormDataEntryValue | null = data.get("name");
+        const description: FormDataEntryValue | null = data.get("description");
+        const permissions: FormDataEntryValue | null = JSON.parse(<string>data.get("permissions"));
 
         return await fetchRequest({
             url: `${serverVariable.serverPath}internal/authorization/role/${id}`,

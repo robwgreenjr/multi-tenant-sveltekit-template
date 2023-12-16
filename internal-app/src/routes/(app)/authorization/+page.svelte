@@ -1,32 +1,32 @@
 <script lang="ts">
-    import Button from "$components/Button/index.svelte";
-    import RoleTable from "./components/RoleTable/index.svelte";
-    import RoleForm from "./components/RoleForm/index.svelte";
-    import {currentRole} from "./stores/currentRole";
-    import {roleList} from "./stores/roleList";
-    import {page} from "$app/stores";
+	import Button from "$components/Button/index.svelte";
+	import RoleTable from "./components/RoleTable/index.svelte";
+	import RoleForm from "./components/RoleForm/index.svelte";
+	import {currentRole} from "./stores/currentRole";
+	import {roleList} from "./stores/roleList";
+	import {page} from "$app/stores";
 
-    roleList.set($page.data.roleList);
+	roleList.set($page.data.roleList);
 </script>
 
 <div class="container">
-	<div class="header">
-		<h3>Roles</h3>
-		<div class="right_side">
-			<Button onClick={() => currentRole.set({
-				id: null,
+    <div class="header">
+        <h3>Roles</h3>
+        <div class="right_side">
+            <Button onClick={() => currentRole.set({
+				id: "",
 				name: "",
-				description: null,
+				description: "",
 				permissions: [],
 				users: []
 			})}
-			        title="Add New Role"/>
-		</div>
-	</div>
+                    title="Add New Role"/>
+        </div>
+    </div>
 
-	<RoleTable/>
+    <RoleTable/>
 
-	<RoleForm/>
+    <RoleForm/>
 </div>
 
 <style lang="scss">

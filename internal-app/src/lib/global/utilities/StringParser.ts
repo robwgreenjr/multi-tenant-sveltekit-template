@@ -13,6 +13,6 @@ export const cleanUrl = (url: string): string => {
     return url[url.length - 1] === "/" ? url.slice(0, -1) : url;
 };
 
-export const isString = (str: string | undefined): str is string => {
+export const isString = (str: string | undefined): boolean => {
     return typeof str === 'string';
 }

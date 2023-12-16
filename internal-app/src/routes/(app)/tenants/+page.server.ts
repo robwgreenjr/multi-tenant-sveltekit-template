@@ -3,19 +3,10 @@ import {fetchRequest} from "$lib/global/helpers/RequestHelper";
 import {serverVariable} from "$lib/global/variables/ServerVariable";
 import {HttpMethod} from "$lib/global/enums/HttpMethod";
 import type {RequestEvent} from "@sveltejs/kit";
-import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
 
 export const load = (async ({cookies}) => {
-    const users = await fetchRequest({
-        url: `${serverVariable.serverPath}internal/users?sort_by=asc(id)`,
-        method: HttpMethod.GET,
-        headers: {
-            Authorization: `Bearer ${cookies.get("jwt")}`,
-        },
-    });
-
-    const roles = await fetchRequest({
-        url: `${serverVariable.serverPath}internal/authorization/roles`,
+    const tenants = await fetchRequest({
+        url: `${serverVariable.serverPath}internal/tenants?sort_by=asc(id)`,
         method: HttpMethod.GET,
         headers: {
             Authorization: `Bearer ${cookies.get("jwt")}`,
@@ -23,55 +14,52 @@ export const load = (async ({cookies}) => {
     });
 
     return {
-        pageTitle: "Users",
-        usersResponse: users,
-        roleList: roles.data
+        pageTitle: "Tenants",
+        tenantsResponse: tenants,
     }
 }) satisfies PageServerLoad;
 
 export const actions = {
-    createUser: async ({request, cookies}: RequestEvent): Promise<ResponseDto> => {
+    createTenant: async ({request, cookies}: RequestEvent) => {
         const data: FormData = await request.formData();
-        const firstName: FormDataEntryValue | null = data.get("firstName");
-        const lastName: FormDataEntryValue | null = data.get("lastName");
+        const companyName: FormDataEntryValue | null = data.get("companyName");
+        const subdomain: FormDataEntryValue | null = data.get("subdomain");
         const email: FormDataEntryValue | null = data.get("email");
         const phone: FormDataEntryValue | null = data.get("phone");
 
         return await fetchRequest({
-            url: `${serverVariable.serverPath}internal/user`,
+            url: `${serverVariable.serverPath}internal/tenant`,
             headers: {
                 Authorization: `Bearer ${cookies.get("jwt")}`,
             },
             method: HttpMethod.POST,
             body: {
-                firstName,
-                lastName,
+                companyName,
+                subdomain,
                 email,
                 phone
             },
         });
     },
-    
-    updateUser: async ({request, cookies}: RequestEvent): Promise<ResponseDto> => {
+    updateTenant: async ({request, cookies}: RequestEvent) => {
         const data: FormData = await request.formData();
-        const firstName: FormDataEntryValue | null = data.get("firstName");
-        const lastName: FormDataEntryValue | null = data.get("lastName");
+        const companyName: FormDataEntryValue | null = data.get("companyName");
+        const subdomain: FormDataEntryValue | null = data.get("subdomain");
         const email: FormDataEntryValue | null = data.get("email");
         const phone: FormDataEntryValue | null = data.get("phone");
 
         return await fetchRequest({
-            url: `${serverVariable.serverPath}internal/user/${data.get("id")}`,
+            url: `${serverVariable.serverPath}internal/tenant/${data.get("id")}`,
             headers: {
                 Authorization: `Bearer ${cookies.get("jwt")}`,
             },
             method: HttpMethod.PUT,
             body: {
-                firstName,
-                lastName,
+                companyName,
+                subdomain,
                 email,
                 phone
             },
         });
     }
 }
-

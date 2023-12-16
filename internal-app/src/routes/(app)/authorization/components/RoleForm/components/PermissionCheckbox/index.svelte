@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type {Permission} from "$lib/authorization/types/Permission";
-    import {currentRole} from "../../../../stores/currentRole";
-    import {page} from "$app/stores";
+	import type {Permission} from "$lib/authorization/types/Permission";
+	import {currentRole} from "../../../../stores/currentRole";
+	import {page} from "$app/stores";
 
-    export let permission: Permission;
+	export let permission: Permission;
 
     const isChecked = (): boolean => {
         if (!permission || !$currentRole?.permissions) return false;
@@ -17,16 +17,20 @@
 
         return (
             $page.data.permissionList.filter(
-                (perm) => perm.id === permission.id).length === 0
+                (p: Permission) => p.id === permission.id).length === 0
         );
     };
 
-    const updateRolePermission = (event: HTMLInputElement) => {
-        if (event.target.checked) {
+    const updateRolePermission = (event: Event) => {
+        if (!$currentRole) return;
+        const target = event.target as HTMLInputElement;
+
+        if (target.checked) {
             currentRole.set({
                 ...$currentRole,
                 permissions: [...$currentRole?.permissions, permission]
-            })
+            });
+
             return;
         }
 
@@ -35,18 +39,18 @@
             permissions: [...$currentRole?.permissions.filter(
                 (perm: Permission) => perm.id !== permission.id,
             )]
-        })
+        });
     };
 </script>
 
 <td class="container">
-	<input
-		checked={isChecked() ? "checked" : ""}
-		disabled={isDisabled()}
-		on:change={updateRolePermission}
-		type="checkbox"
-		value={`${isChecked()}`}
-	/>
+    <input
+            checked={isChecked()}
+            disabled={isDisabled()}
+            on:change={updateRolePermission}
+            type="checkbox"
+            value={`${isChecked()}`}
+    />
 </td>
 
 <style lang="scss">

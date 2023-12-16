@@ -1,6 +1,6 @@
 <script lang="ts">
     import Drawer from "$components/Drawer/index.svelte";
-    import {currentRole} from "../../stores/currentRole.ts";
+    import {currentRole} from "../../stores/currentRole";
     import Input from "$components/Input/index.svelte";
     import Button from "$components/Button/index.svelte";
     import {enhance} from '$app/forms';
@@ -10,50 +10,61 @@
     import PermissionSelection
         from "./components/PermissionSelection/index.svelte";
     import {StyleType} from "$lib/global/enums/StyleType";
+    import {ButtonType} from "$lib/global/enums/ButtonType";
+    import type {ActionResult} from "@sveltejs/kit";
+    import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
+
+    const handleResult = async (result: ActionResult) => {
+        if (result.type !== "success") return;
+        const data = (result.data as ResponseDto);
+
+        showMessage(data, snackBar, {
+            message: `Role ${$currentRole?.id ? 'updated' : 'created'}!`,
+            severity: MessageSeverity.SUCCESS,
+            show: true,
+            timeout: 2000,
+        });
+
+        if (data.data.length) {
+            currentRole.set(data.data[0]);
+        }
+    }
 </script>
 
 <Drawer onClose={() => currentRole.set(null)}
-        open={$currentRole}>
-	{#if $currentRole}
-		<form method="POST"
-		      action="?/{$currentRole.id ? 'updateRole' : 'createRole'}"
-		      use:enhance={({formData}) => {
-                  if ($currentRole.id) {
-                    formData.set("id", $currentRole.id);
+        open={!!$currentRole}>
+    {#if $currentRole}
+        <form method="POST"
+              action="?/{$currentRole.id ? 'updateRole' : 'createRole'}"
+              use:enhance={({formData}) => {
+                  if ($currentRole?.id) {
+                    formData.set("id", $currentRole.id.toString());
                   }
-
-                  formData.set("permissions", JSON.stringify($currentRole.permissions));
+                  
+                  formData.set("permissions", JSON.stringify($currentRole?.permissions));
 
 	              return ({ result, update }) => {
-	                  showMessage(result.data, snackBar, {
-	                      message: `Role ${$currentRole.id ? 'updated' : 'created'}!`,
-	                      severity: MessageSeverity.SUCCESS,
-	                      show: true,
-	                      timeout: 2000,
-	                  });
+                      handleResult(result);
 
-	                  update({ reset: false });
-
-                      if (result.data.data.length) {
-                          currentRole.set(result.data.data[0]);
-                      }
+                      update({ reset: false });
 	              };
               }}>
-			<Input name="name"
-			       value={$currentRole.name ?? null}
-			       label="Name"/>
 
-			<Input name="description"
-			       value={$currentRole.description ?? null}
-			       label="Description"/>
+            <Input name="name"
+                   value={$currentRole.name ?? null}
+                   label="Name"/>
 
-			<PermissionSelection/>
+            <Input name="description"
+                   value={$currentRole.description ?? null}
+                   label="Description"/>
 
-			<Button
-				title="Save"
-				type="submit"
-				styleType={StyleType.PRIMARY_CTA}
-			/>
-		</form>
-	{/if}
+            <PermissionSelection/>
+
+            <Button
+                    title="Save"
+                    type={ButtonType.SUBMIT}
+                    styleType={StyleType.PRIMARY_CTA}
+            />
+        </form>
+    {/if}
 </Drawer>
