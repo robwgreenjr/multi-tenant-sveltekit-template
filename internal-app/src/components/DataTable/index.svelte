@@ -11,39 +11,38 @@
     import FilterDrawer from "./components/FilterDrawer.svelte";
 
     export let response: ResponseDto;
-    export let selectedRow;
+    export let selectedRow: any;
     export let open = false;
     export let columns: GridColumnDef[];
 
     let search = "";
     let sortStatus = "?sort_by=asc(id)";
     let filterOpen = false;
-	let lastScrollHeight = 0;
-    const onScroll = async (event) => {
-        const interval =
-            (event.target as HTMLDivElement).scrollTop +
-            (event.target as HTMLDivElement).offsetHeight;
+	let lastHrefCalled = "";
+	let threshold = 1000;
+    const onScroll = async (event: Event) => {
+		const target = (event.target as HTMLDivElement);
+		const offset = target.scrollHeight - target.clientHeight - target.scrollTop;
 
-        if (interval <= (event.target as HTMLDivElement).scrollHeight - 300) return;
-        if (!response.links.next) return;
-		if (lastScrollHeight && lastScrollHeight <= event.target.scrollHeight + 600) return;
+        if (offset >= threshold) return;
+        if (!response.links.next || (lastHrefCalled && lastHrefCalled === response.links.next.href)) {
+			return;
+		}
+		lastHrefCalled = response.links.next.href;
 
-        const newData = await fetchRequest({
+		const newData = await fetchRequest({
             url: `${clientVariable.clientPath}api/query`,
             method: HttpMethod.POST,
             body: {
                 url: response.links.next.href,
             },
         });
-
-		lastScrollHeight = event.target.scrollHeight;
-
         response = {
             ...response, data: [...response.data, ...newData.data],
             links: newData.links
         };
     }
-    const closeForm = (open) => {
+    const closeForm = (open: boolean) => {
         if (!open) {
             selectedRow = null;
         }
