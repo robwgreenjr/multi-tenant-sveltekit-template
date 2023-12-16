@@ -6,7 +6,7 @@ import {json} from "@sveltejs/kit";
 
 export async function DELETE({params, cookies}: RequestEvent) {
     const response = await fetchRequest({
-        url: `${serverVariable.serverPath}authorization/role/${params.id}`,
+        url: `${serverVariable.serverPath}internal/authorization/role/${params.id}`,
         method: HttpMethod.DELETE,
         headers: {
             Authorization: `Bearer ${cookies.get("jwt")}`,

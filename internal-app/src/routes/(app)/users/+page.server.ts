@@ -5,7 +5,7 @@ import {HttpMethod} from "$lib/global/enums/HttpMethod";
 
 export const load = (async ({cookies}) => {
     const users = await fetchRequest({
-        url: `${serverVariable.serverPath}users?sort_by=asc(id)`,
+        url: `${serverVariable.serverPath}internal/users?sort_by=asc(id)`,
         method: HttpMethod.GET,
         headers: {
             Authorization: `Bearer ${cookies.get("jwt")}`,
@@ -13,7 +13,7 @@ export const load = (async ({cookies}) => {
     });
 
     const roles = await fetchRequest({
-        url: `${serverVariable.serverPath}authorization/roles`,
+        url: `${serverVariable.serverPath}internal/authorization/roles`,
         method: HttpMethod.GET,
         headers: {
             Authorization: `Bearer ${cookies.get("jwt")}`,

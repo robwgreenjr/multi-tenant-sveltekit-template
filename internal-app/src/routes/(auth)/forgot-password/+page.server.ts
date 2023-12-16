@@ -19,7 +19,7 @@ export const actions = {
         const token: FormDataEntryValue | null = data.get('token');
 
         return await fetchRequest({
-            url: `${serverVariable.serverPath}authentication/password/forgot`,
+            url: `${serverVariable.serverPath}internal/authentication/password/forgot`,
             method: HttpMethod.POST,
             body: {
                 password,

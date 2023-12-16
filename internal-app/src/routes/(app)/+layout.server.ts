@@ -21,7 +21,7 @@ export const load = (async ({cookies}: ServerLoadEvent) => {
     }
 
     const user: ResponseDto = await fetchRequest({
-        url: `${serverVariable.serverPath}user/${jwt.userDetails.id}`,
+        url: `${serverVariable.serverPath}internal/user/${jwt.userDetails.id}`,
         method: HttpMethod.GET,
     });
 

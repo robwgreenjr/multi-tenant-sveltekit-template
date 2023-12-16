@@ -1,17 +1,20 @@
 <script lang="ts">
     import {sideMenu} from "$stores/layouts/sideMenu";
-    import {camelCaseToNormal} from "$lib/global/utilities/StringParser";
+	import {camelCaseToNormal, isString} from "$lib/global/utilities/StringParser";
     import Logout from "$layouts/Logout/index.svelte";
 
     import {page} from '$app/stores';
+	import type {PageLink} from "$lib/global/types/PageLink";
 
-    let pageList;
+    let pageList: PageLink[];
     $: {
-        const pageScopes = [...new Set(
-            $page.data.jwt.scopes?.split(",")
-                .filter(item => item.includes("page")))];
+		const pageScopes: string[] = Array.from(new Set(
+				($page.data.jwt.scopes?.split(",") || [])
+						.filter(isString)
+						.filter((item: string) => item.includes("page"))
+		));
 
-        pageList = pageScopes.map(item => {
+        pageList = pageScopes.map((item: string) => {
             const page = item.split(".")[0];
 
             return {

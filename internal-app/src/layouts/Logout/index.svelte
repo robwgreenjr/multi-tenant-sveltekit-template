@@ -1,5 +1,5 @@
 <script lang="ts">
-    export let cssClass;
+    export let cssClass: string;
 </script>
 
 <div style={cssClass}>

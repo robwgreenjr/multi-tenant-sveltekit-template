@@ -6,7 +6,7 @@ import type {RequestEvent} from "@sveltejs/kit";
 
 export const load = (async ({cookies}) => {
     const roles = await fetchRequest({
-        url: `${serverVariable.serverPath}authorization/roles`,
+        url: `${serverVariable.serverPath}internal/authorization/roles`,
         method: HttpMethod.GET,
         headers: {
             Authorization: `Bearer ${cookies.get("jwt")}`,
@@ -14,7 +14,7 @@ export const load = (async ({cookies}) => {
     });
 
     const permissions = await fetchRequest({
-        url: `${serverVariable.serverPath}authorization/permissions`,
+        url: `${serverVariable.serverPath}internal/authorization/permissions`,
         method: HttpMethod.GET,
         headers: {
             Authorization: `Bearer ${cookies.get("jwt")}`,
@@ -39,7 +39,7 @@ export const actions = {
                 "permissions"));
 
         return await fetchRequest({
-            url: `${serverVariable.serverPath}authorization/role`,
+            url: `${serverVariable.serverPath}internal/authorization/role`,
             headers: {
                 Authorization: `Bearer ${cookies.get("jwt")}`,
             },
@@ -62,7 +62,7 @@ export const actions = {
                 "permissions"));
 
         return await fetchRequest({
-            url: `${serverVariable.serverPath}authorization/role/${id}`,
+            url: `${serverVariable.serverPath}internal/authorization/role/${id}`,
             headers: {
                 Authorization: `Bearer ${cookies.get("jwt")}`,
             },

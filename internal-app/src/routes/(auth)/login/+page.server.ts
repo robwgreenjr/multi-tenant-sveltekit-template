@@ -23,7 +23,7 @@ export const actions = {
         const password: FormDataEntryValue | null = data.get("password");
 
         const response = await fetchRequest({
-            url: `${serverVariable.serverPath}authentication/jwt`,
+            url: `${serverVariable.serverPath}internal/authentication/jwt`,
             method: HttpMethod.POST,
             body: {
                 email,

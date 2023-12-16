@@ -1,5 +1,5 @@
 <script>
-    import {sideMenu} from "$stores/layouts/sideMenu.ts";
+    import {sideMenu} from "$stores/layouts/sideMenu";
 
     const toggleSideMenu = () => {
         sideMenu.set(!$sideMenu);

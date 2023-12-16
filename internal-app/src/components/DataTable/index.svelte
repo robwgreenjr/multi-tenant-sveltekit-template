@@ -37,6 +37,7 @@
                 url: response.links.next.href,
             },
         });
+
         response = {
             ...response, data: [...response.data, ...newData.data],
             links: newData.links

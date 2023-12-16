@@ -21,7 +21,7 @@ export const actions = {
         const phone: FormDataEntryValue | null = data.get("phone");
 
         let response = await fetchRequest({
-            url: `${serverVariable.serverPath}user/${id}`,
+            url: `${serverVariable.serverPath}internal/user/${id}`,
             method: HttpMethod.PATCH,
             body: {
                 firstName,
@@ -69,7 +69,7 @@ export const actions = {
         }
 
         response = await fetchRequest({
-            url: `${serverVariable.serverPath}authentication/password`,
+            url: `${serverVariable.serverPath}internal/authentication/password`,
             method: HttpMethod.PUT,
             body: {
                 confirmCurrentPassword,

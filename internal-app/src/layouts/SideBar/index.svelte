@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {sideMenu} from "$stores/layouts/sideMenu.ts";
+    import {sideMenu} from "$stores/layouts/sideMenu";
     import UserAccount from "./components/UserAccount.svelte";
     import PageList from "./components/PageList.svelte";
 
