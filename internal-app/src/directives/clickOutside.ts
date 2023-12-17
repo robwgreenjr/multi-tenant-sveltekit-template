@@ -1,14 +1,18 @@
 import type {ActionReturn} from "svelte/action";
 
-export function clickOutside(node: HTMLElement): ActionReturn<void> {
+export function clickOutside(node: HTMLElement, parameters?: string[]): ActionReturn<void> {
     const handleClick = (event: Event) => {
         const target = (event.target as HTMLElement);
-        if (node.dataset.ignore) {
-            if (
-                target.parentElement?.dataset.ignore === node.dataset.ignore ||
-                target.dataset.ignore === node.dataset.ignore
-            ) {
-                return;
+
+        if (parameters) {
+            for (const param of parameters) {
+                if (
+                    target.parentElement?.parentElement?.dataset.ignore === param ||
+                    target.parentElement?.dataset.ignore === param ||
+                    target.dataset.ignore === param
+                ) {
+                    return;
+                }
             }
         }
 

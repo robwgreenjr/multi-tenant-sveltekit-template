@@ -1,17 +1,13 @@
 <script lang="ts">
     import type {Filter} from "../types/Filter";
     import type {GridColumnDef} from "../types/GridColumnDef";
-    import FilterModal from "./FilterModal.svelte";
     import {filterIndex} from "../helpers/QueryHelper";
 
-    export let activeIndex: number;
     export let columns: GridColumnDef[];
     export let filter: Filter;
     export let filterElementHeight: number;
     export let index: number;
-    export let updateIndex: () => void;
-
-    let isModelOpen = false;
+    export let openModal: () => void;
 
     const openFilterModal = (event: Event) => {
         const target = (event.target as HTMLElement);
@@ -19,17 +15,16 @@
             return;
         }
 
-        updateIndex();
+        openModal();
     }
-
-    $: isModelOpen = activeIndex === index
 </script>
 
 <div
     bind:clientHeight={filterElementHeight}
     class="container {filter.value ? 'filled_filter' : ''}"
+    data-ignore="filter_modal"
 >
-    <div class="content" on:click={openFilterModal}>
+    <div class="content" data-ignore="filter_modal" on:click={openFilterModal}>
         <div class="header">
             <h5>{filter.value && filter?.column?.headerName ? filter.column.headerName : "New Filter*"}</h5>
             <button data-ignore="filter-element-close" on:click>
@@ -53,15 +48,6 @@
             </div>
         {/if}
     </div>
-
-
-    {#if isModelOpen}
-        <FilterModal
-            bind:filter={filter}
-            bind:isModelOpen={isModelOpen}
-            {columns}
-        />
-    {/if}
 </div>
 
 <style lang="scss">
