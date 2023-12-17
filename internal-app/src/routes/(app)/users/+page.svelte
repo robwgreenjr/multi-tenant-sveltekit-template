@@ -57,10 +57,12 @@
 </script>
 
 <div class="container">
-    <DataTable bind:selectedRow={selectedRow}
-               columns={columns}
-               open={!!$currentUser}
-               response={$page.data.usersResponse}>
+    <DataTable
+        bind:selectedRow={selectedRow}
+        columns={columns}
+        open={!!$currentUser}
+        response={$page.data.usersResponse}
+    >
         <UserForm/>
     </DataTable>
 </div>

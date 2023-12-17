@@ -1,17 +1,17 @@
 <script lang="ts">
-	import {clientVariable} from "$lib/global/variables/ClientVariable";
-	import {enhance} from '$app/forms';
-	import {snackBar} from "$stores/layouts/snackBar";
-	import {showMessage} from "$lib/global/helpers/FormHelper";
-	import Input from "$components/Input/index.svelte";
-	import Button from "$components/Button/index.svelte";
-	import {AutoCompleteType} from "$lib/global/enums/AutoCompleteType";
-	import {StyleType} from "$lib/global/enums/StyleType";
-	import type {ActionResult} from "@sveltejs/kit";
-	import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
-	import {ButtonType} from "$lib/global/enums/ButtonType";
+    import {clientVariable} from "$lib/global/variables/ClientVariable";
+    import {enhance} from '$app/forms';
+    import {snackBar} from "$stores/layouts/snackBar";
+    import {showMessage} from "$lib/global/helpers/FormHelper";
+    import Input from "$components/Input/index.svelte";
+    import Button from "$components/Button/index.svelte";
+    import {AutoCompleteType} from "$lib/global/enums/AutoCompleteType";
+    import {StyleType} from "$lib/global/enums/StyleType";
+    import type {ActionResult} from "@sveltejs/kit";
+    import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
+    import {ButtonType} from "$lib/global/enums/ButtonType";
 
-	const handleResult = async (result: ActionResult) => {
+    const handleResult = async (result: ActionResult) => {
         if (result.type !== "success") return;
         const data = (result.data as ResponseDto);
 
@@ -23,28 +23,36 @@
     <div class="header">
         <h1>{clientVariable.siteName}</h1>
     </div>
-    <form action="?/login"
-          method="POST"
-          use:enhance={() => {
+    <form
+        action="?/login"
+        method="POST"
+        use:enhance={() => {
               return ({ result, update }) => {
                   handleResult(result);
 
                   update({ reset: false });
               };
-          }}>
-        <Input autoComplete={AutoCompleteType.EMAIL}
-               name="email"
-               placeholder="Email"/>
+        }}
+    >
+        <Input
+            autoComplete={AutoCompleteType.EMAIL}
+            name="email"
+            placeholder="Email"
+        />
 
-        <Input autoComplete={AutoCompleteType.CURRENT_PASSWORD}
-               name="password"
-               placeholder="Password"
-               type="password"/>
+        <Input
+            autoComplete={AutoCompleteType.CURRENT_PASSWORD}
+            name="password"
+            placeholder="Password"
+            type="password"
+        />
 
-        <Button className="green"
-                styleType={StyleType.PRIMARY_CTA}
-                title="Login"
-                type={ButtonType.SUBMIT}/>
+        <Button
+            className="green"
+            styleType={StyleType.PRIMARY_CTA}
+            title="Login"
+            type={ButtonType.SUBMIT}
+        />
         <p>
             <a href="forgot-password">Forgot Password</a>
         </p>

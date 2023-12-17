@@ -19,13 +19,13 @@
   @import "$scss/mixin";
 
   nav {
-    position: fixed;
-    z-index: 1000;
-    width: 100%;
-    display: flex;
-    height: 3.5rem;
     background: $primary-white;
     box-shadow: $primary-dark-box-shadow;
+    display: flex;
+    height: 3.5rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
 
     h1 {
       font-size: 1rem;
@@ -33,15 +33,15 @@
     }
 
     .right {
-      flex-grow: 2;
-      margin: 0 1rem;
       display: flex;
       flex-direction: row-reverse;
+      flex-grow: 2;
+      margin: 0 1rem;
     }
 
     .right, .left {
-      display: flex;
       align-items: center;
+      display: flex;
       height: 100%;
     }
 
@@ -51,28 +51,28 @@
   }
 
   .icon {
-    margin-left: 1rem;
     font-weight: 700;
+    margin-left: 1rem;
 
     a {
-      text-decoration: none;
       color: $primary-black;
+      text-decoration: none;
     }
   }
 
   .action_button {
-    border: none;
     background-color: $primary-dark;
+    border: none;
     border-radius: 50%;
-    position: relative;
     cursor: pointer;
+    position: relative;
   }
 
   .action_icon {
-    width: 1.8rem;
-    height: 2.2rem;
     color: $primary-light;
+    height: 2.2rem;
     position: relative;
     top: 2px;
+    width: 1.8rem;
   }
 </style>

@@ -1,16 +1,15 @@
 <script lang="ts">
-	import {clickOutside} from "$directives/clickOutside";
-	import type {GridColumnDef} from "../types/GridColumnDef";
-	import {QueryFilter} from "../enums/QueryFilter";
-	import type {Filter} from "../types/Filter";
-	import {determineFilterType, getColumn} from "../helpers/FilterHelper";
-	import {filterIndex} from "../helpers/QueryHelper";
-	import Input from "../../Input/index.svelte";
-	import Select from "../../Select/index.svelte";
-	import Button from "../../Button/index.svelte";
-	import {StyleType} from "$lib/global/enums/StyleType";
+    import type {GridColumnDef} from "../types/GridColumnDef";
+    import {QueryFilter} from "../enums/QueryFilter";
+    import type {Filter} from "../types/Filter";
+    import {determineFilterType, getColumn} from "../helpers/FilterHelper";
+    import {filterIndex} from "../helpers/QueryHelper";
+    import Input from "../../Input/index.svelte";
+    import Select from "../../Select/index.svelte";
+    import Button from "../../Button/index.svelte";
+    import {StyleType} from "$lib/global/enums/StyleType";
 
-	export let columns: GridColumnDef[] = [];
+    export let columns: GridColumnDef[] = [];
     export let isModelOpen: boolean;
     export let filter: Filter;
 
@@ -25,10 +24,13 @@
         filter.value = filterValue;
         filter.operator = filterOperator;
 
-        closeFilterModal();
+        isModelOpen = false;
     }
 
-    const closeFilterModal = () => {
+    const closeFilterModal = (event: Event) => {
+        const target = (event.target as HTMLElement);
+        if (!target.className.includes("filter") && !target.className.includes("filter_container")) return;
+
         isModelOpen = false;
     }
 
@@ -46,34 +48,39 @@
     }
 </script>
 
-<div class="container"
-     on:click_outside={closeFilterModal}
-     use:clickOutside={{ignore: 'filter'}}>
-
-    <Select changeEvent={onColumnChange}
-            label="Column"
-            value={filterColumn.field}>
+<div
+    class="filter_container"
+    on:click={closeFilterModal}
+>
+    <Select
+        label="Column"
+        on:change={onColumnChange}
+        value={filterColumn?.field ?? ""}
+    >
         {#each columns as column}
             <option value={column.field}>{column.headerName}</option>
         {/each}
     </Select>
 
-    <Select bind:value={filter.operator}
-            changeEvent={onOperatorChange}
-            label="Operator">
+    <Select
+        bind:value={filter.operator}
+        label="Operator"
+        on:change={onOperatorChange}
+    >
         {#each Object.values(QueryFilter) as filter}
             <option value={filter}>{filterIndex[filter]}</option>
         {/each}
     </Select>
 
-    <Input bind:type={filterValueType}
-           bind:value={filterValue}
-           label="Value"
-           styleType={StyleType.BLANK}/>
+    <Input
+        bind:type={filterValueType}
+        bind:value={filterValue}
+        label="Value"
+        styleType={StyleType.BLANK}
+    />
 
     <div class="button__container">
-        <Button onClick={saveFilter}
-                title="Done"/>
+        <Button on:click={saveFilter} title="Done"/>
     </div>
 
     <div class="pointer"></div>
@@ -82,19 +89,19 @@
 <style lang="scss">
   @import "$scss/_mixin.scss";
 
-  .container {
-    position: absolute;
-    left: -27.8rem;
-    top: -5rem;
+  .filter_container {
     background-color: $primary-white;
-    padding: 1rem;
-    width: 400px;
-    height: 170px;
     border: 1px solid $light-grey;
     border-radius: $primary-border-radius;
     display: flex;
     flex-direction: column;
+    height: 170px;
     justify-content: space-between;
+    left: -27.8rem;
+    padding: 1rem;
+    position: absolute;
+    top: -5rem;
+    width: 400px;
   }
 
   .button__container {
@@ -109,14 +116,14 @@
 
   .pointer {
     background: $primary-white;
-    position: absolute;
-    left: 26.5rem;
-    top: 6.3rem;
     border: 0;
     border-right: 1px solid $light-grey;
     border-top: 1px solid $light-grey;
-    width: 1rem;
     height: 1rem;
+    left: 26.5rem;
+    position: absolute;
+    top: 6.3rem;
     transform: rotate(45deg);
+    width: 1rem;
   }
 </style>

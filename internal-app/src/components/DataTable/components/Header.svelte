@@ -31,7 +31,13 @@
 <thead class="container">
     <tr class="row">
         {#each columns as column}
-            <th on:click={() => sortColumn(column)} style="width: {column.width}px" class="column" on:mouseenter={() => enter(column)} on:mouseleave={leave}>
+            <th
+                class="column"
+                on:click={() => sortColumn(column)}
+                on:mouseenter={() => enter(column)}
+                on:mouseleave={leave}
+                style="width: {column.width}px"
+            >
                 <span class="column_name">{column.headerName}</span>
                 <span class="sort">
                     {#if sortStatus.includes(column.field) && sortStatus.includes("asc")}
@@ -43,7 +49,12 @@
                             <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"></path>
                         </svg>
                     {:else}
-                        <svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" class={!sortStatus.includes(column.field) && hoverStatus.includes(column.field) ? "" : "hide"}>
+                        <svg
+                            aria-hidden="true"
+                            class={!sortStatus.includes(column.field) && hoverStatus.includes(column.field) ? "" : "hide"}
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                        >
                             <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"></path>
                         </svg>
                     {/if}
@@ -57,32 +68,32 @@
     @import "$scss/_mixin.scss";
 
     .container {
+        background-color: $light-grey;
+        color: $secondary-grey;
+        padding: 0;
         position: sticky;
         top: 0;
-        padding: 0;
-        color: $secondary-grey;
-        background-color: $light-grey;
         z-index: 1;
     }
 
     .column {
-        padding: 0.4rem;
         cursor: pointer;
-        user-select: none;
+        padding: 0.4rem;
         text-align: left;
+        user-select: none;
     }
 
     .column_name {
-      color: $primary-grey;
+        color: $primary-grey;
     }
 
     svg {
-      width: 1rem;
-      height: 0.8rem;
-      opacity: 0.5;
+        height: 0.8rem;
+        opacity: 0.5;
+        width: 1rem;
     }
 
     .hide {
-      opacity: 0;
+        opacity: 0;
     }
 </style>

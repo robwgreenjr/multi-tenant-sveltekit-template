@@ -45,12 +45,12 @@
     }
 </script>
 
-<Drawer onClose={() => currentRole.set(null)}
-        open={!!$currentRole}>
+<Drawer onClose={() => currentRole.set(null)} open={!!$currentRole}>
     {#if $currentRole}
-        <form method="POST"
-              action="?/{$currentRole.id ? 'updateRole' : 'createRole'}"
-              use:enhance={({formData}) => {
+        <form
+            method="POST"
+            action="?/{$currentRole.id ? 'updateRole' : 'createRole'}"
+            use:enhance={({formData}) => {
                   if ($currentRole?.id) {
                     formData.set("id", $currentRole.id.toString());
                   }
@@ -63,7 +63,8 @@
 
                       update({ reset: false });
 	              };
-              }}>
+            }}
+        >
 
             <Input
                 label="Name"

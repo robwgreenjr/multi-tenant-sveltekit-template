@@ -30,12 +30,12 @@
     }
 </script>
 
-<Drawer onClose={() => currentTenant.set(null)}
-        open={!!$currentTenant}>
+<Drawer onClose={() => currentTenant.set(null)} open={!!$currentTenant}>
     {#if $currentTenant}
-        <form action="?/{$currentTenant.id ? 'updateUser' : 'createUser'}"
-              method="POST"
-              use:enhance={({formData}) => {
+        <form
+            action="?/{$currentTenant.id ? 'updateUser' : 'createUser'}"
+            method="POST"
+            use:enhance={({formData}) => {
                   if ($currentTenant?.id) {
                     formData.set("id", $currentTenant.id);
                   }
@@ -45,35 +45,44 @@
 
                       update({ reset: false });
 	              };
-              }}>
-            <Input label="Company Name"
-                   name="companyName"
-                   value={$currentTenant.companyName ?? null}/>
+            }}
+        >
+            <Input
+                label="Company Name"
+                name="companyName"
+                value={$currentTenant.companyName ?? null}
+            />
 
-            <Input label="Subdomain"
-                   name="subdomain"
-                   value={$currentTenant.subdomain ?? null}/>
+            <Input
+                label="Subdomain"
+                name="subdomain"
+                value={$currentTenant.subdomain ?? null}
+            />
 
-            <Input label="Email"
-                   name="email"
-                   value={$currentTenant.email ?? null}/>
+            <Input
+                label="Email"
+                name="email"
+                value={$currentTenant.email ?? null}
+            />
 
-            <Input label="Phone"
-                   name="phone"
-                   value={$currentTenant.phone ?? null}/>
+            <Input
+                label="Phone"
+                name="phone"
+                value={$currentTenant.phone ?? null}
+            />
 
             <div class="button_container">
                 <Button
-                        styleType={StyleType.PRIMARY_CTA}
-                        title="Save"
-                        type={ButtonType.SUBMIT}
+                    styleType={StyleType.PRIMARY_CTA}
+                    title="Save"
+                    type={ButtonType.SUBMIT}
                 />
 
                 {#if $currentTenant.id}
                     <Button
-                            styleType={StyleType.PRIMARY_ERROR}
-                            title="Delete"
-                            className="global__user_error_button"
+                        styleType={StyleType.PRIMARY_ERROR}
+                        title="Delete"
+                        className="global__user_error_button"
                     />
                 {/if}
             </div>

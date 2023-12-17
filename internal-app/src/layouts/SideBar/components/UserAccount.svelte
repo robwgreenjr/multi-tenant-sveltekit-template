@@ -4,10 +4,9 @@
     export let toggleSideMenu: () => void;
 </script>
 <div>
-    <div class="user__container">
+    <div class="container">
         <h3>{$page.data.user.firstName}</h3>
-        <a href="/user-account"
-           on:click={toggleSideMenu}>
+        <a href="/user-account" on:click={toggleSideMenu}>
             <div class="account"><span>View Account</span></div>
         </a>
     </div>
@@ -17,7 +16,7 @@
   @import "$scss/variables";
   @import "$scss/mixin";
 
-  .user__container {
+  .container {
     text-align: center;
     margin: 1rem;
 

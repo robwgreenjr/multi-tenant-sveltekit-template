@@ -32,9 +32,10 @@
 <Drawer onClose={() => currentUser.set(null)}
         open={!!$currentUser}>
     {#if $currentUser}
-        <form action="?/{$currentUser.id ? 'updateUser' : 'createUser'}"
-              method="POST"
-              use:enhance={({formData}) => {
+        <form
+            action="?/{$currentUser.id ? 'updateUser' : 'createUser'}"
+            method="POST"
+            use:enhance={({formData}) => {
                   if ($currentUser?.id) {
                     formData.set("id", $currentUser.id.toString());
                   }
@@ -46,35 +47,44 @@
 
                       update({ reset: false });
 	              };
-              }}>
-            <Input label="First Name"
-                   name="firstName"
-                   value={$currentUser.firstName ?? null}/>
+            }}
+        >
+            <Input
+                label="First Name"
+                name="firstName"
+                value={$currentUser.firstName ?? null}
+            />
 
-            <Input label="Last Name"
-                   name="lastName"
-                   value={$currentUser.lastName ?? null}/>
+            <Input
+                label="Last Name"
+                name="lastName"
+                value={$currentUser.lastName ?? null}
+            />
 
-            <Input label="Email"
-                   name="email"
-                   value={$currentUser.email ?? null}/>
+            <Input
+                label="Email"
+                name="email"
+                value={$currentUser.email ?? null}
+            />
 
-            <Input label="Phone"
-                   name="phone"
-                   value={$currentUser.phone ?? null}/>
+            <Input
+                label="Phone"
+                name="phone"
+                value={$currentUser.phone ?? null}
+            />
 
             <div class="button_container">
                 <Button
-                        styleType={StyleType.PRIMARY_CTA}
-                        title="Save"
-                        type={ButtonType.SUBMIT}
+                    styleType={StyleType.PRIMARY_CTA}
+                    title="Save"
+                    type={ButtonType.SUBMIT}
                 />
 
                 {#if $currentUser.id}
                     <Button
-                            styleType={StyleType.PRIMARY_ERROR}
-                            title="Delete"
-                            className="global__user_error_button"
+                        styleType={StyleType.PRIMARY_ERROR}
+                        title="Delete"
+                        className="global__user_error_button"
                     />
                 {/if}
             </div>

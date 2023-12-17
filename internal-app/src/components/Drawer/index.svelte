@@ -1,16 +1,19 @@
 <script lang="ts">
-    import {clickOutside} from "$directives/clickOutside.ts";
 
     export let open = false;
-    export let onClose = () => {};
+    export let onClose = () => {
+    };
 
-    const handleClickOutside = () => {
+    const handleClickOutside = (event: Event) => {
+        const target = (event.target as HTMLElement);
+        if (!target.className.includes("backdrop")) return;
+
         if (open) {
             open = !open;
         }
     };
 
-    const handleClose = (open) => {
+    const handleClose = (open: boolean) => {
         if (!open) {
             onClose();
         }
@@ -19,44 +22,44 @@
     $: handleClose(open);
 </script>
 
-<div class="container {open ? 'open': '' }"
-     on:click_outside={handleClickOutside}
-     use:clickOutside>
-	<slot></slot>
+<div
+    class="container {open ? 'open': '' }"
+    on:click={handleClickOutside}
+>
+    <slot></slot>
 </div>
-<div aria-hidden="true"
-     class="backdrop {open ? 'open': '' }"></div>
+<div aria-hidden="true" class="backdrop {open ? 'open': '' }"></div>
 
 <style lang="scss">
   @import "$scss/_variables.scss";
 
   .container {
     background-color: $primary-white;
-    display: none;
-    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     box-shadow: $primary-dark-box-shadow;
-    overflow-y: auto;
+    display: none;
+    flex: 1 0 auto;
     flex-direction: column;
     height: 100%;
-    flex: 1 0 auto;
-    z-index: 8000;
-    position: fixed;
-    top: 0;
     outline: 0;
-    right: 0;
+    overflow-y: auto;
     padding: 1rem;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    z-index: 8000;
   }
 
   .backdrop {
-    position: fixed;
-    display: none;
     align-items: center;
-    justify-content: center;
-    inset: 0;
     background-color: $primary-black;
+    display: none;
+    inset: 0;
+    justify-content: center;
     opacity: 0.3;
-    -webkit-tap-highlight-color: transparent;
+    position: fixed;
     z-index: 1100;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .open {

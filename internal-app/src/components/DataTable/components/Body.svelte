@@ -37,24 +37,24 @@
 </tbody>
 
 <style lang="scss">
-  @import "$scss/_mixin.scss";
+    @import "$scss/_mixin.scss";
 
-  .container {
-    background-color: $primary-white;
-  }
+    .container {
+        background-color: $primary-white;
+    }
 
-  .row {
-      cursor: pointer;
-      border-top: 1px solid rgba(38, 89, 43, 0.2);
+    .row {
+        border-top: 1px solid rgba(38, 89, 43, 0.2);
+        cursor: pointer;
 
-      &:hover {
-        background-color: $light-grey;
-      }
-  }
+        &:hover {
+            background-color: $light-grey;
+        }
+    }
 
-  .column {
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      padding: 5px;
-  }
+    .column {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding: 5px;
+    }
 </style>

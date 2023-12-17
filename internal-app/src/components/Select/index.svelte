@@ -3,17 +3,15 @@
 
     export let className = "";
     export let label = "";
-    export let onChange: () => void;
     export let styleType: StyleType = StyleType.PRIMARY;
-    export let value;
+    export let value: string;
 </script>
 
 <label style="{styleType} {className}">
     {#if label}
         <span>{label}</span>
     {/if}
-    <select bind:value={value}
-            on:change={onChange}>
+    <select bind:value={value} on:change>
         <slot></slot>
     </select>
 </label>

@@ -117,6 +117,6 @@ export const getNestedProperty = (row: any, field: string): any => {
 
     const currentField = nested.shift();
     if (!currentField) return;
-    
+
     return getNestedProperty(row[currentField], nested.join("."));
 }

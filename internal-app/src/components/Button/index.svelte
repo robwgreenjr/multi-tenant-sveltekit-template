@@ -1,16 +1,15 @@
 <script lang="ts">
-    import {StyleType} from "$lib/global/enums/StyleType";
-    import {ButtonType} from "$lib/global/enums/ButtonType";
+	import {StyleType} from "$lib/global/enums/StyleType";
+	import {ButtonType} from "$lib/global/enums/ButtonType";
 
-    export let className = "";
-    export let onClick = () => {};
+	export let className = "";
     export let styleType: StyleType = StyleType.PRIMARY;
     export let title = "";
     export let type: ButtonType = ButtonType.BUTTON;
 
     let buttonBind: HTMLButtonElement;
 
-    function typeAction(node) {
+    function typeAction(node: HTMLButtonElement) {
         node.type = type;
     }
 
@@ -21,13 +20,15 @@
     }
 </script>
 
-<button bind:this={buttonBind}
-        class="{styleType} {className}"
-        on:click={onClick}>
-	{#if title}
-		{title}
-	{/if}
-	<slot></slot>
+<button
+    bind:this={buttonBind}
+    class="{styleType} {className}"
+    on:click
+>
+    {#if title}
+        {title}
+    {/if}
+    <slot></slot>
 </button>
 
 <style lang="scss">

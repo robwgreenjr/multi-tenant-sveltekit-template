@@ -1,7 +1,9 @@
 <script lang="ts">
     import {tenantList} from "./stores/tenantList";
     import {page} from "$app/stores";
-    import type {GridColumnDef} from "$components/DataTable/types/GridColumnDef";
+    import type {
+        GridColumnDef
+    } from "$components/DataTable/types/GridColumnDef";
     import DataTable from "$components/DataTable/index.svelte";
     import TenantForm from "./components/TenantForm/index.svelte";
     import {currentTenant} from "./stores/currentTenant";
@@ -38,10 +40,12 @@
 </script>
 
 <div class="container">
-    <DataTable bind:selectedRow={selectedRow}
-               columns={columns}
-               open={!!$currentTenant}
-               response={$page.data.tenantsResponse}>
+    <DataTable
+        bind:selectedRow={selectedRow}
+        columns={columns}
+        open={!!$currentTenant}
+        response={$page.data.tenantsResponse}
+    >
         <TenantForm/>
     </DataTable>
 </div>

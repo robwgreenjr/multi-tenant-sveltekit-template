@@ -11,7 +11,7 @@
         const pageScopes: string[] = Array.from(new Set(
             $page.data.jwt.scopes?.split(",").filter((item: string) => item.includes("page"))
         ));
-        
+
         pageList = pageScopes.map((item: string) => {
             const page = item.split(".")[0];
 
@@ -48,8 +48,8 @@
 
   .container {
     display: flex;
-    flex-direction: column;
     flex: 1;
+    flex-direction: column;
   }
 
   .bottom__container {
@@ -58,8 +58,8 @@
   }
 
   ul {
-    list-style: none;
     flex: 1;
+    list-style: none;
     margin: 0;
     padding-left: 1rem;
   }
@@ -70,8 +70,9 @@
 
   a {
     @include primary-hover-effect;
-    text-decoration: none;
+
     color: $primary-black;
     font-weight: bolder;
+    text-decoration: none;
   }
 </style>

@@ -29,14 +29,16 @@
     {#if label}
         <span>{label}</span>
     {/if}
-    <input autoComplete={autoComplete}
-           bind:this={inputBind}
-           bind:value
-           id={name}
-           name={name}
-           on:change
-           on:input
-           placeholder={placeholder ?? ""}>
+    <input
+        autoComplete={autoComplete}
+        bind:this={inputBind}
+        bind:value
+        id={name}
+        name={name}
+        on:change
+        on:input
+        placeholder={placeholder ?? ""}
+    >
 </label>
 
 <style lang="scss">
