@@ -6,13 +6,16 @@
     import {searchTable} from "$components/DataTable/helpers/TableHelper";
     import {filterList} from "$components/DataTable/stores/filterList";
 
-    export let activeIndex: number;
+    export let activeIndex: number = -1;
     export let columns: GridColumnDef[];
     export let filterOpen;
     export let modifiedFilterList = [...$filterList];
     export let response: ResponseDto;
     export let search = "";
     export let sortStatus = "";
+
+    let filterListHeight: number;
+    let filterElementHeight: number;
 
     const close = () => {
         filterOpen = false;
@@ -55,7 +58,11 @@
 
 <div class="container">
     <div class="header">
-        {#if !response.links.self.href.includes("&") && !modifiedFilterList.length && !$filterList.length}
+        {#if
+            !response.links.self.href.includes("&") &&
+            !modifiedFilterList.length &&
+            !$filterList.length
+        }
             <h4>Filters</h4>
             <button class="svg_close" on:click={() => close()}>
                 <svg aria-hidden="true" focusable="false" viewBox="0 0 52 52">
@@ -80,10 +87,17 @@
             </div>
         {/if}
 
-        <div>
+        <div
+            bind:clientHeight={filterListHeight}
+            style="
+                height: {(modifiedFilterList.length * (filterElementHeight + 8)) + 8}px;
+                overflow: scroll; max-height: {(10 * (filterElementHeight + 8)) + 8}px;
+            "
+        >
             {#each modifiedFilterList as filter, i}
                 <FilterElement
                     activeIndex={activeIndex}
+                    bind:filterElementHeight={filterElementHeight}
                     index={i}
                     on:click={() => removeFilter(i)}
                     updateIndex={() => updateIndex(i)}

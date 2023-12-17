@@ -7,8 +7,9 @@
     export let activeIndex: number;
     export let columns: GridColumnDef[];
     export let filter: Filter;
+    export let filterElementHeight: number;
     export let index: number;
-    export let updateIndex: (index: number) => void;
+    export let updateIndex: () => void;
 
     let isModelOpen = false;
 
@@ -18,13 +19,16 @@
             return;
         }
 
-        updateIndex(index);
+        updateIndex();
     }
 
     $: isModelOpen = activeIndex === index
 </script>
 
-<div class="container {filter.value ? 'filled_filter' : ''}">
+<div
+    bind:clientHeight={filterElementHeight}
+    class="container {filter.value ? 'filled_filter' : ''}"
+>
     <div class="content" on:click={openFilterModal}>
         <div class="header">
             <h5>{filter.value && filter?.column?.headerName ? filter.column.headerName : "New Filter*"}</h5>
