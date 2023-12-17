@@ -2,10 +2,6 @@
 
 ## TODO
 
-### - Complete UI filter functionality
-
-### - Add parameter support for filter
-
 ### - Finish all needed pages
 
 ### - Create custom error pages

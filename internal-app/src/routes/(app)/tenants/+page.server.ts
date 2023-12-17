@@ -4,9 +4,9 @@ import {serverVariable} from "$lib/global/variables/ServerVariable";
 import {HttpMethod} from "$lib/global/enums/HttpMethod";
 import type {RequestEvent} from "@sveltejs/kit";
 
-export const load = (async ({cookies}) => {
+export const load = (async ({cookies, url}) => {
     const tenants = await fetchRequest({
-        url: `${serverVariable.serverPath}internal/tenants?sort_by=asc(id)`,
+        url: `${serverVariable.serverPath}internal/tenants?sort_by=asc(id)&${url.searchParams.toString()}`,
         method: HttpMethod.GET,
         headers: {
             Authorization: `Bearer ${cookies.get("jwt")}`,

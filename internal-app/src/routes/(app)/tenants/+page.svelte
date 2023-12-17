@@ -7,9 +7,7 @@
     import DataTable from "$components/DataTable/index.svelte";
     import TenantForm from "./components/TenantForm/index.svelte";
     import {currentTenant} from "./stores/currentTenant";
-
-    tenantList.set($page.data.tenantsResponse.data);
-    $: $page.data.tenantsResponse, tenantList.set($page.data.tenantsResponse.data);
+    import {onMount} from "svelte";
 
     let columns: GridColumnDef[] = [
         {
@@ -34,8 +32,13 @@
         {headerName: "Created On", field: "createdOn", type: "date"},
         {headerName: "Updated On", field: "updatedOn", type: "date"},
     ];
-
     let selectedRow: any;
+
+    onMount(() => {
+        tenantList.set($page.data.tenantsResponse.data);
+    });
+
+    $: $page.data.tenantsResponse, tenantList.set($page.data.tenantsResponse.data);
     $: selectedRow, currentTenant.set(selectedRow);
 </script>
 
@@ -51,10 +54,10 @@
 </div>
 
 <style lang="scss">
-  .container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    max-height: calc(100vh - 66px);
-  }
+    .container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        max-height: calc(100vh - 66px);
+    }
 </style>

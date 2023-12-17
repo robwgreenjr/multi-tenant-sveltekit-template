@@ -9,31 +9,33 @@
     import Input from "$components/Input/index.svelte";
     import Button from "$components/Button/index.svelte";
     import {ButtonType} from "$lib/global/enums/ButtonType";
-    import type {ActionResult} from "@sveltejs/kit";
     import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
-    import {currentUser} from "../../../users/stores/currentUser";
 
     const handleResult = async (result: ActionResult) => {
         if (result.type !== "success") return;
         const data = (result.data as ResponseDto);
 
         showMessage(data, snackBar, {
-            message: `Tenant ${$currentUser?.id ? 'updated' : 'created'}!`,
+            message: `Tenant ${$currentTenant?.id ? 'updated' : 'created'}!`,
             severity: MessageSeverity.SUCCESS,
             show: true,
             timeout: 2000,
         });
 
         if (data.data.length) {
-            currentTenant.set(data.data[0]);
+            currentTenant.set({
+                ...data.data[0],
+                id: $currentTenant.id
+            });
         }
     }
+    $: console.log($currentTenant)
 </script>
 
 <Drawer onClose={() => currentTenant.set(null)} open={!!$currentTenant}>
     {#if $currentTenant}
         <form
-            action="?/{$currentTenant.id ? 'updateUser' : 'createUser'}"
+            action="?/{$currentTenant.id ? 'updateTenant' : 'createTenant'}"
             method="POST"
             use:enhance={({formData}) => {
                   if ($currentTenant?.id) {
@@ -92,12 +94,12 @@
 </Drawer>
 
 <style lang="scss">
-  .button_container {
-    display: flex;
-    justify-content: space-between;
-  }
+    .button_container {
+        display: flex;
+        justify-content: space-between;
+    }
 
-  :global(.global__user_error_button) {
-    width: 6rem;
-  }
+    :global(.global__user_error_button) {
+        width: 6rem;
+    }
 </style>
