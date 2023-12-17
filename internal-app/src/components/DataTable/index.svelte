@@ -5,10 +5,8 @@
     import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
     import Actions from "./components/Actions.svelte";
     import Body from "./components/Body.svelte";
-    import {fetchRequest} from "$lib/global/helpers/RequestHelper";
-    import {clientVariable} from "$lib/global/variables/ClientVariable";
-    import {HttpMethod} from "$lib/global/enums/HttpMethod";
     import FilterDrawer from "./components/FilterDrawer.svelte";
+    import {scrollQuery} from "$lib/global/helpers/ScrollHelper";
 
     export let response: ResponseDto;
     export let selectedRow: any;
@@ -21,28 +19,17 @@
     let lastHrefCalled = "";
     let threshold = 1000;
 
-    const onScroll = async (event: Event) => {
-        const target = (event.target as HTMLDivElement);
-        const offset = target.scrollHeight - target.clientHeight - target.scrollTop;
-
-        if (offset >= threshold) return;
-        if (!response.links.next || (lastHrefCalled && lastHrefCalled === response.links.next.href)) {
-            return;
-        }
-        lastHrefCalled = response.links.next.href;
-
-        const newData = await fetchRequest({
-            url: `${clientVariable.clientPath}api/query`,
-            method: HttpMethod.POST,
-            body: {
-                url: response.links.next.href,
-            },
+    const scrollEvent = async (event: Event) => {
+        const scrollResponse = await scrollQuery({
+            event,
+            threshold,
+            lastHrefCalled,
+            response
         });
+        if (!scrollResponse) return;
 
-        response = {
-            ...response, data: [...response.data, ...newData.data],
-            links: newData.links
-        };
+        lastHrefCalled = scrollResponse.lastHrefCalled;
+        response = scrollResponse.response;
     }
     const closeForm = (open: boolean) => {
         if (!open) {
@@ -73,7 +60,7 @@
         />
     {/if}
     <div class="table__container"
-         on:scroll={onScroll}>
+         on:scroll={scrollEvent}>
         <table>
             <Header
                 bind:response={response}
@@ -97,24 +84,24 @@
 </div>
 
 <style lang="scss">
-  @import "$scss/_mixin.scss";
+    @import "$scss/_mixin.scss";
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    border: $primary-border;
-    border-radius: $primary-border-radius;
-  }
+    .container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: $primary-border;
+        border-radius: $primary-border-radius;
+    }
 
-  .table__container {
-    position: relative;
-    overflow: scroll;
-    height: 100%;
-  }
+    .table__container {
+        position: relative;
+        overflow: scroll;
+        height: 100%;
+    }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 </style>

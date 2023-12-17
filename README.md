@@ -13,3 +13,5 @@
 ### - Set up a loading screen for long load times
 
 ### - Support JWT refresh
+
+### - Setup Demo docker environments that include backend and fake data
