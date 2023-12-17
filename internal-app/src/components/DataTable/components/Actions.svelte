@@ -5,6 +5,7 @@
     import type {
         GridColumnDef
     } from "$components/DataTable/types/GridColumnDef.js";
+    import {filterList} from "$components/DataTable/stores/filterList";
 
     export let search = "";
     export let columns: GridColumnDef[];
@@ -26,7 +27,7 @@
 
     const searchCall = async () => {
         const result = await searchTable(columns, search, sortStatus,
-            response.links.self.href);
+            response.links.self.href, $filterList);
 
         if (result) {
             response = result;
@@ -125,95 +126,95 @@
 </div>
 
 <style lang="scss">
-  @import "$scss/_mixin.scss";
+    @import "$scss/_mixin.scss";
 
-  .container {
-    border-bottom: $primary-border;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    padding: 0.4rem;
-    width: 100%;
-  }
-
-  .right {
-    display: flex;
-    justify-content: right;
-    position: relative;
-  }
-
-  .left {
-    margin-top: auto;
-  }
-
-  .query_status {
-    font-size: 12px;
-  }
-
-  .search {
-    @include primary-input;
-    border: none;
-    height: 100%;
-    margin: auto 0.3rem auto 0;
-    max-width: 15rem;
-    padding: 0.4rem 0.4rem 0.4rem 2rem;
-
-    &::placeholder {
-      opacity: 0.4;
-    }
-  }
-
-  .search_icon {
-    color: $medium-grey;
-    height: 1.4rem;
-    left: 0.2rem;
-    position: absolute;
-    opacity: 0.4;
-    top: 0.3rem;
-    width: 1.4rem;
-  }
-
-  .config__container {
-    position: relative;
-  }
-
-  .config__button, .toggle__button {
-    background-color: $primary-white;
-    border: none;
-    border-radius: $primary-border-radius;
-    cursor: pointer;
-    display: flex;
-    height: 2rem;
-    justify-content: center;
-    padding: 0;
-    position: relative;
-    width: 2.1rem;
-
-    svg {
-      height: 14px;
-      left: 0.05rem;
-      position: relative;
-      top: 30%;
-      width: 14px;
+    .container {
+        border-bottom: $primary-border;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        padding: 0.4rem;
+        width: 100%;
     }
 
-    &:hover {
-      color: $dark-grey;
+    .right {
+        display: flex;
+        justify-content: right;
+        position: relative;
     }
 
-    .down_arrow {
-      width: 10px;
+    .left {
+        margin-top: auto;
     }
-  }
 
-  .toggle__button {
-    margin-left: 0.3rem;
-
-    svg {
-      height: 1.5rem;
-      left: 0.07rem;
-      top: 0.3rem;
-      width: 1.5rem;
+    .query_status {
+        font-size: 12px;
     }
-  }
+
+    .search {
+        @include primary-input;
+        border: none;
+        height: 100%;
+        margin: auto 0.3rem auto 0;
+        max-width: 15rem;
+        padding: 0.4rem 0.4rem 0.4rem 2rem;
+
+        &::placeholder {
+            opacity: 0.4;
+        }
+    }
+
+    .search_icon {
+        color: $medium-grey;
+        height: 1.4rem;
+        left: 0.2rem;
+        position: absolute;
+        opacity: 0.4;
+        top: 0.3rem;
+        width: 1.4rem;
+    }
+
+    .config__container {
+        position: relative;
+    }
+
+    .config__button, .toggle__button {
+        background-color: $primary-white;
+        border: none;
+        border-radius: $primary-border-radius;
+        cursor: pointer;
+        display: flex;
+        height: 2rem;
+        justify-content: center;
+        padding: 0;
+        position: relative;
+        width: 2.1rem;
+
+        svg {
+            height: 14px;
+            left: 0.05rem;
+            position: relative;
+            top: 30%;
+            width: 14px;
+        }
+
+        &:hover {
+            color: $dark-grey;
+        }
+
+        .down_arrow {
+            width: 10px;
+        }
+    }
+
+    .toggle__button {
+        margin-left: 0.3rem;
+
+        svg {
+            height: 1.5rem;
+            left: 0.07rem;
+            top: 0.3rem;
+            width: 1.5rem;
+        }
+    }
 </style>

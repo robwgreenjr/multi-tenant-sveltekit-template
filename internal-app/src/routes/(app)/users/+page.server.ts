@@ -5,9 +5,9 @@ import {HttpMethod} from "$lib/global/enums/HttpMethod";
 import type {RequestEvent} from "@sveltejs/kit";
 import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
 
-export const load = (async ({cookies}) => {
+export const load = (async ({cookies, url}) => {
     const users = await fetchRequest({
-        url: `${serverVariable.serverPath}internal/users?sort_by=asc(id)`,
+        url: `${serverVariable.serverPath}internal/users?sort_by=asc(id)&${url.searchParams.toString()}`,
         method: HttpMethod.GET,
         headers: {
             Authorization: `Bearer ${cookies.get("jwt")}`,
@@ -30,7 +30,10 @@ export const load = (async ({cookies}) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-    createUser: async ({request, cookies}: RequestEvent): Promise<ResponseDto> => {
+    createUser: async ({
+                           request,
+                           cookies
+                       }: RequestEvent): Promise<ResponseDto> => {
         const data: FormData = await request.formData();
         const firstName: FormDataEntryValue | null = data.get("firstName");
         const lastName: FormDataEntryValue | null = data.get("lastName");
@@ -51,8 +54,11 @@ export const actions = {
             },
         });
     },
-    
-    updateUser: async ({request, cookies}: RequestEvent): Promise<ResponseDto> => {
+
+    updateUser: async ({
+                           request,
+                           cookies
+                       }: RequestEvent): Promise<ResponseDto> => {
         const data: FormData = await request.formData();
         const firstName: FormDataEntryValue | null = data.get("firstName");
         const lastName: FormDataEntryValue | null = data.get("lastName");

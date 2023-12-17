@@ -1,9 +1,9 @@
 export enum QueryFilter {
-	GT = "gt",
-	GTE = "gte",
-	LT = "lt",
-	LTE = "lte",
-	EQ = "eq",
-	NE = "ne",
-	LIKE = "like",
+    EQ = "eq",
+    GT = "gt",
+    GTE = "gte",
+    LIKE = "like",
+    LT = "lt",
+    LTE = "lte",
+    NE = "ne",
 }
