@@ -6,7 +6,9 @@
     import Actions from "./components/Actions.svelte";
     import Body from "./components/Body.svelte";
     import FilterDrawer from "./components/FilterDrawer.svelte";
-    import {scrollQuery} from "$lib/global/helpers/ScrollHelper";
+    import {fetchRequest} from "$lib/global/helpers/RequestHelper";
+    import {clientVariable} from "$lib/global/variables/ClientVariable";
+    import {HttpMethod} from "$lib/global/enums/HttpMethod";
 
     export let response: ResponseDto;
     export let selectedRow: any;
@@ -20,16 +22,27 @@
     let threshold = 1000;
 
     const scrollEvent = async (event: Event) => {
-        const scrollResponse = await scrollQuery({
-            event,
-            threshold,
-            lastHrefCalled,
-            response
-        });
-        if (!scrollResponse) return;
+        const target = (event.target as HTMLDivElement);
+        const offset = target.scrollHeight - target.clientHeight - target.scrollTop;
 
-        lastHrefCalled = scrollResponse.lastHrefCalled;
-        response = scrollResponse.response;
+        if (offset >= threshold) return;
+        if (!response.links.next || (lastHrefCalled && lastHrefCalled === response.links.next.href)) {
+            return;
+        }
+        lastHrefCalled = response.links.next.href;
+
+        const newData = await fetchRequest({
+            url: `${clientVariable.clientPath}api/query`,
+            method: HttpMethod.POST,
+            body: {
+                url: response.links.next.href,
+            },
+        });
+        
+        response = {
+            ...response, data: [...response.data, ...newData.data],
+            links: newData.links
+        };
     }
     const closeForm = (open: boolean) => {
         if (!open) {

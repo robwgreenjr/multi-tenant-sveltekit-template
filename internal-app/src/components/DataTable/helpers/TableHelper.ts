@@ -43,9 +43,11 @@ const paramBuilder = (filterList?: Filter[], params?: string): string => {
             } catch (exception: any) {
                 // nothing
             }
-        } else {
-            params += `&${filter.column?.field}${operator}=${filter.value}`;
+
+            continue;
         }
+        
+        params += `&${filter.column?.field}${operator}=${filter.value}`;
     }
 
     return params;
