@@ -7,7 +7,6 @@
     import Body from "./components/Body.svelte";
     import FilterDrawer from "./components/FilterDrawer.svelte";
     import {fetchRequest} from "$lib/global/helpers/RequestHelper";
-    import {clientVariable} from "$lib/global/variables/ClientVariable";
     import {HttpMethod} from "$lib/global/enums/HttpMethod";
 
     export let response: ResponseDto;
@@ -32,13 +31,13 @@
         lastHrefCalled = response.links.next.href;
 
         const newData = await fetchRequest({
-            url: `${clientVariable.clientPath}api/query`,
+            url: "/api/query",
             method: HttpMethod.POST,
             body: {
                 url: response.links.next.href,
             },
         });
-        
+
         response = {
             ...response, data: [...response.data, ...newData.data],
             links: newData.links

@@ -1,5 +1,4 @@
 import {fetchRequest} from "$lib/global/helpers/RequestHelper";
-import {clientVariable} from "$lib/global/variables/ClientVariable";
 import {HttpMethod} from "$lib/global/enums/HttpMethod";
 import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
 import type {GridColumnDef} from "../types/GridColumnDef";
@@ -46,7 +45,7 @@ const paramBuilder = (filterList?: Filter[], params?: string): string => {
 
             continue;
         }
-        
+
         params += `&${filter.column?.field}${operator}=${filter.value}`;
     }
 
@@ -108,7 +107,7 @@ export const searchTable = async (
     }
 
     return await fetchRequest({
-        url: `${clientVariable.clientPath}api/query`,
+        url: `/api/query`,
         method: HttpMethod.POST,
         body: {
             url: `${url.split("?")[0]}${

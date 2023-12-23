@@ -1,6 +1,5 @@
 import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
 import {fetchRequest} from "$lib/global/helpers/RequestHelper";
-import {clientVariable} from "$lib/global/variables/ClientVariable";
 import {HttpMethod} from "$lib/global/enums/HttpMethod";
 
 export type ScrollResponse = {
@@ -34,7 +33,7 @@ export const scrollQuery = async (options: ScrollOptions): Promise<ScrollRespons
     }
 
     const newData = await fetchRequest({
-        url: `${clientVariable.clientPath}api/query`,
+        url: `/api/query`,
         method: HttpMethod.POST,
         body: {
             url: response.links.next.href,

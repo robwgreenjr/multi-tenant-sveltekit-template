@@ -5,7 +5,6 @@
     import {StyleType} from "$lib/global/enums/StyleType";
     import {ButtonType} from "$lib/global/enums/ButtonType";
     import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
-    import {clientVariable} from "$lib/global/variables/ClientVariable";
     import {HttpMethod} from "$lib/global/enums/HttpMethod";
     import {fetchRequest} from "$lib/global/helpers/RequestHelper";
     import {showMessage} from "$lib/global/helpers/FormHelper";
@@ -15,7 +14,7 @@
 
     const deleteRole = async (id: string) => {
         const response: ResponseDto = await fetchRequest({
-            url: `${clientVariable.clientPath}api/authorization/role/${id}`,
+            url: `/api/authorization/role/${id}`,
             method: HttpMethod.DELETE,
         });
 
@@ -69,23 +68,23 @@
 </div>
 
 <style lang="scss">
-  @import "$scss/_variables.scss";
+    @import "$scss/_variables.scss";
 
-  .container {
-    background: $primary-light;
-    border-radius: 4px;
-    box-shadow: $primary-box-shadow;
-    padding: 1rem;
-    max-width: 80%;
-    margin: auto;
+    .container {
+        background: $primary-light;
+        border-radius: 4px;
+        box-shadow: $primary-box-shadow;
+        padding: 1rem;
+        max-width: 80%;
+        margin: auto;
 
-    table {
-      width: 100%;
-      margin: auto;
+        table {
+            width: 100%;
+            margin: auto;
 
-      th {
-        text-align: left;
-      }
+            th {
+                text-align: left;
+            }
+        }
     }
-  }
 </style>
