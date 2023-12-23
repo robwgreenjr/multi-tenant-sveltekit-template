@@ -29,7 +29,6 @@
             });
         }
     }
-    $: console.log($currentTenant)
 </script>
 
 <Drawer onClose={() => currentTenant.set(null)} open={!!$currentTenant}>

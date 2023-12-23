@@ -34,7 +34,8 @@ export const actions = {
         if (response.data.length) {
             const jwt: AuthenticationToken = response.data[0];
             cookies.set('jwt', jwt.token, {
-                path: "/"
+                path: "/",
+                secure: false
             });
 
             throw redirect(HttpStatusCode.RedirectFound, "/");

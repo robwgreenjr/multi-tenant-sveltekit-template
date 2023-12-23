@@ -2,9 +2,13 @@
 
 ## TODO
 
+### - Setup Demo docker environments that include backend and fake data
+
 ### - Finish all needed pages
 
-### - Setup tenant separation handling
+- Company website registration
+- Tenant auth
+- Tenant data separation
 
 ### - Create custom error pages
 
@@ -12,4 +16,3 @@
 
 ### - Support JWT refresh
 
-### - Setup Demo docker environments that include backend and fake data

@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  internal-app:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    container_name: internal-app
+    ports:
+      - "127.0.0.102:80:80"
+      - "127.0.0.102:4000:80"
+      - "127.0.0.102:9229:9229"
+    volumes:
+      - .:/opt
+      - /opt/internal-app/node_modules
+      - /opt/tenant-app/node_modules
+      - /opt/company-website/node_modules
+      - /opt/internal-app/.svelte-kit
+      - /opt/tenant-app/.svelte-kit
+      - /opt/company-website/.svelte-kit
+      - /opt/multi-tenant-spring-template
+    networks:
+      - sveltekit-template
+  sveltekit-template-pg:
+    image: postgres:16
+    container_name: sveltekit-template-pg
+    ports:
+      - "127.0.0.102:5432:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=main
+    volumes:
+      - sveltekit-template-pg:/var/lib/postgresql/data
+    networks:
+      - sveltekit-template
+networks:
+  sveltekit-template:
+    external: true
+volumes:
+  sveltekit-template-pg:

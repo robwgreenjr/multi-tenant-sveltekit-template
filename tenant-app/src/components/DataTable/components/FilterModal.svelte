@@ -19,7 +19,7 @@
     export let columns: GridColumnDef[] = [];
 
     let filter: Filter;
-    let filterValueType: string = determineFilterType(filter ? filter.column?.type : columns[0].type);
+    let filterValueType: string;
 
     const saveFilter = () => {
         $modifiedFilterList[$activeFilterModalIndex] = filter;
@@ -45,10 +45,11 @@
     }
 
     const setFilter = (currentFilterIndex: number) => {
-        filter = $modifiedFilterList[currentFilterIndex];
+        filter = {...$modifiedFilterList[currentFilterIndex]};
     }
 
-    $: setFilter($activeFilterModalIndex);
+    $: setFilter($activeFilterModalIndex ?? 0);
+    $: filterValueType = determineFilterType((filter ? filter.column?.type : columns[0].type) ?? "");
 </script>
 
 <div
