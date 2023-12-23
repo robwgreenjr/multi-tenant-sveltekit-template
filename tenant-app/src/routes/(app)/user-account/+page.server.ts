@@ -13,7 +13,10 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-    submitUserAccountForm: async ({request}: RequestEvent): Promise<ResponseDto> => {
+    submitUserAccountForm: async ({
+                                      request,
+                                      url
+                                  }: RequestEvent): Promise<ResponseDto> => {
         const data: FormData = await request.formData();
         const id: FormDataEntryValue | null = data.get("id");
         const firstName: FormDataEntryValue | null = data.get("firstName");
@@ -24,6 +27,7 @@ export const actions = {
         let response = await fetchRequest({
             url: `${serverVariable.serverPath}user/${id}`,
             method: HttpMethod.PATCH,
+            subdomain: url,
             body: {
                 firstName,
                 lastName,
@@ -72,6 +76,7 @@ export const actions = {
         response = await fetchRequest({
             url: `${serverVariable.serverPath}authentication/password`,
             method: HttpMethod.PUT,
+            subdomain: url,
             body: {
                 confirmCurrentPassword,
                 newPassword,

@@ -18,11 +18,11 @@ source ~/.nvm/nvm.sh \
         && npm i \
         && npm run dev &
 
-source ~/.nvm/nvm.sh \
-        && nvm install --lts \
-        && nvm use --lts \
-        && cd /opt/tenant-app \
-        && npm i \
-        && npm run dev &
+#source ~/.nvm/nvm.sh \
+#        && nvm install --lts \
+#        && nvm use --lts \
+#        && cd /opt/tenant-app \
+#        && npm i \
+#        && npm run dev &
 
 tail -f /dev/null

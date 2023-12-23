@@ -9,7 +9,7 @@ import {HttpMethod} from "$lib/global/enums/HttpMethod";
 import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
 import {jwtDecode} from "jwt-decode";
 
-export const load = (async ({cookies}: ServerLoadEvent) => {
+export const load = (async ({cookies, url}: ServerLoadEvent) => {
     if (!cookies.get("jwt")) {
         throw redirect(HttpStatusCode.RedirectFound, "/login");
     }
@@ -22,6 +22,7 @@ export const load = (async ({cookies}: ServerLoadEvent) => {
 
     const user: ResponseDto = await fetchRequest({
         url: `${serverVariable.serverPath}user/${jwt.userDetails.id}`,
+        subdomain: url,
         method: HttpMethod.GET,
     });
 

@@ -25,7 +25,7 @@
         <h1>{clientVariable.siteName}</h1>
     </div>
     <form
-        action="?/resetPassword"
+        action="?/createPassword"
         method="POST"
         use:enhance={({formData}) => {
               formData.set("token", $page.params.token);
@@ -60,27 +60,27 @@
 </div>
 
 <style lang="scss">
-  @import "$scss/variables";
-  @import "$scss/mixin";
+    @import "$scss/variables";
+    @import "$scss/mixin";
 
-  .container {
-    margin: 5rem auto auto;
-    max-width: 30rem;
-  }
+    .container {
+        margin: 5rem auto auto;
+        max-width: 30rem;
+    }
 
-  .header {
-    text-align: center;
-  }
+    .header {
+        text-align: center;
+    }
 
-  h1 {
-    font-size: 40px;
-  }
+    h1 {
+        font-size: 40px;
+    }
 
-  form {
-    text-align: center;
-  }
+    form {
+        text-align: center;
+    }
 
-  .form {
-    margin-top: 4rem;
-  }
+    .form {
+        margin-top: 4rem;
+    }
 </style>

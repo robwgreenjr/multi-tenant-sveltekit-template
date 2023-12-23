@@ -17,7 +17,7 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-    login: async ({cookies, request}: RequestEvent) => {
+    login: async ({cookies, request, url}: RequestEvent) => {
         const data: FormData = await request.formData();
         const email: FormDataEntryValue | null = data.get("email");
         const password: FormDataEntryValue | null = data.get("password");
@@ -25,6 +25,7 @@ export const actions = {
         const response = await fetchRequest({
             url: `${serverVariable.serverPath}authentication/jwt`,
             method: HttpMethod.POST,
+            subdomain: url,
             body: {
                 email,
                 password

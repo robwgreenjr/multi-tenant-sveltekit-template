@@ -15,12 +15,6 @@ services:
       - "127.0.0.103:9229:9229"
     volumes:
       - .:/opt
-      - /opt/internal-app/node_modules
-      - /opt/tenant-app/node_modules
-      - /opt/company-website/node_modules
-      - /opt/internal-app/.svelte-kit
-      - /opt/tenant-app/.svelte-kit
-      - /opt/company-website/.svelte-kit
       - /opt/multi-tenant-spring-template
     networks:
       - sveltekit-template

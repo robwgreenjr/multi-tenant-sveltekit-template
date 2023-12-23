@@ -9,6 +9,7 @@ export const load = (async ({cookies, url}) => {
     const users = await fetchRequest({
         url: `${serverVariable.serverPath}users?sort_by=asc(id)&${url.searchParams.toString()}`,
         method: HttpMethod.GET,
+        subdomain: url,
         headers: {
             Authorization: `Bearer ${cookies.get("jwt")}`,
         },
@@ -17,6 +18,7 @@ export const load = (async ({cookies, url}) => {
     const roles = await fetchRequest({
         url: `${serverVariable.serverPath}authorization/roles`,
         method: HttpMethod.GET,
+        subdomain: url,
         headers: {
             Authorization: `Bearer ${cookies.get("jwt")}`,
         },
@@ -32,7 +34,8 @@ export const load = (async ({cookies, url}) => {
 export const actions = {
     createUser: async ({
                            request,
-                           cookies
+                           cookies,
+                           url
                        }: RequestEvent): Promise<ResponseDto> => {
         const data: FormData = await request.formData();
         const firstName: FormDataEntryValue | null = data.get("firstName");
@@ -45,6 +48,7 @@ export const actions = {
             headers: {
                 Authorization: `Bearer ${cookies.get("jwt")}`,
             },
+            subdomain: url,
             method: HttpMethod.POST,
             body: {
                 firstName,
@@ -57,7 +61,8 @@ export const actions = {
 
     updateUser: async ({
                            request,
-                           cookies
+                           cookies,
+                           url
                        }: RequestEvent): Promise<ResponseDto> => {
         const data: FormData = await request.formData();
         const firstName: FormDataEntryValue | null = data.get("firstName");
@@ -71,6 +76,7 @@ export const actions = {
                 Authorization: `Bearer ${cookies.get("jwt")}`,
             },
             method: HttpMethod.PUT,
+            subdomain: url,
             body: {
                 firstName,
                 lastName,

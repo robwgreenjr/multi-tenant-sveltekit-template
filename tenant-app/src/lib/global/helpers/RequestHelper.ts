@@ -4,13 +4,14 @@ import {
 } from "$lib/global/exceptions/InternalServerErrorException";
 import {HttpMethod} from "$lib/global/enums/HttpMethod";
 import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
+import {getTenantId} from "$lib/global/helpers/TenantInformation";
 
 export const fetchRequest = async (options: RequestOptions): Promise<ResponseDto> => {
-    options = buildOptions(options);
+    options = await buildOptions(options);
 
     let response: Response;
     try {
-        const requestInit = buildRequestInit(options);
+        const requestInit = await buildRequestInit(options);
 
         response = await fetch(options.url, requestInit);
     } catch (exception: any) {
@@ -20,7 +21,7 @@ export const fetchRequest = async (options: RequestOptions): Promise<ResponseDto
     return buildResponse(response);
 };
 
-const buildOptions = (options: RequestOptions): RequestOptions => {
+const buildOptions = async (options: RequestOptions): Promise<RequestOptions> => {
     if (!options) {
         throw new InternalServerErrorException("You must pass in request options.");
     }
@@ -37,14 +38,14 @@ const buildOptions = (options: RequestOptions): RequestOptions => {
         options.headers = {
             ...options.headers,
             "Content-Type": "application/json",
-            Accept: "application/json",
+            Accept: "application/json"
         };
     }
 
     return options;
 };
 
-const buildRequestInit = (options: RequestOptions): RequestInit => {
+const buildRequestInit = async (options: RequestOptions): Promise<RequestInit> => {
     let requestInit: RequestInit = {
         method: options.method,
         headers: options.headers ?? {},
@@ -56,6 +57,11 @@ const buildRequestInit = (options: RequestOptions): RequestInit => {
             body: JSON.stringify(options.body),
         };
     }
+
+    requestInit.headers = {
+        ...requestInit.headers,
+        "tenant-id": options.subdomain ? await getTenantId(options.subdomain) : ""
+    };
 
     return requestInit;
 };

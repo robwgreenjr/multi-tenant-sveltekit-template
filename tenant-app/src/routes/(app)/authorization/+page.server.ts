@@ -5,10 +5,11 @@ import {HttpMethod} from "$lib/global/enums/HttpMethod";
 import type {RequestEvent} from "@sveltejs/kit";
 import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
 
-export const load = (async ({cookies}) => {
+export const load = (async ({cookies, url}) => {
     const roles = await fetchRequest({
         url: `${serverVariable.serverPath}authorization/roles`,
         method: HttpMethod.GET,
+        subdomain: url,
         headers: {
             Authorization: `Bearer ${cookies.get("jwt")}`,
         },
@@ -17,6 +18,7 @@ export const load = (async ({cookies}) => {
     const permissions = await fetchRequest({
         url: `${serverVariable.serverPath}authorization/permissions`,
         method: HttpMethod.GET,
+        subdomain: url,
         headers: {
             Authorization: `Bearer ${cookies.get("jwt")}`,
         },
@@ -32,7 +34,8 @@ export const load = (async ({cookies}) => {
 export const actions = {
     createRole: async ({
                            request,
-                           cookies
+                           cookies,
+                           url
                        }: RequestEvent): Promise<ResponseDto> => {
         const data: FormData = await request.formData();
         const name: FormDataEntryValue | null = data.get("name");
@@ -45,6 +48,7 @@ export const actions = {
                 Authorization: `Bearer ${cookies.get("jwt")}`,
             },
             method: HttpMethod.POST,
+            subdomain: url,
             body: {
                 name,
                 description,
@@ -55,7 +59,8 @@ export const actions = {
 
     updateRole: async ({
                            request,
-                           cookies
+                           cookies,
+                           url
                        }: RequestEvent): Promise<ResponseDto> => {
         const data: FormData = await request.formData();
         const id: FormDataEntryValue | null = data.get("id");
@@ -70,6 +75,7 @@ export const actions = {
                 Authorization: `Bearer ${cookies.get("jwt")}`,
             },
             method: HttpMethod.PUT,
+            subdomain: url,
             body: {
                 name,
                 description,

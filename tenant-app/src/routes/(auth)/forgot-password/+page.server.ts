@@ -12,19 +12,16 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-    resetPassword: async ({request}: RequestEvent) => {
+    forgotPassword: async ({request, url}: RequestEvent) => {
         const data: FormData = await request.formData();
-        const password: FormDataEntryValue | null = data.get('password');
-        const passwordConfirmation: FormDataEntryValue | null = data.get('passwordConfirmation');
-        const token: FormDataEntryValue | null = data.get('token');
+        const email: FormDataEntryValue | null = data.get('email');
 
         return await fetchRequest({
             url: `${serverVariable.serverPath}authentication/password/forgot`,
             method: HttpMethod.POST,
+            subdomain: url,
             body: {
-                password,
-                passwordConfirmation,
-                token
+                email
             },
         });
     }
