@@ -35,7 +35,7 @@ RUN source /root/.sdkman/bin/sdkman-init.sh \
     && sdk use java 21.0.1-amzn \
     && sdk install maven \
     && cd /opt/multi-tenant-spring-template \
-    && mvn compile
+    && mvn install
 
 ENV JAVA_HOME=/root/.sdkman/candidates/java/21.0.1-amzn
 

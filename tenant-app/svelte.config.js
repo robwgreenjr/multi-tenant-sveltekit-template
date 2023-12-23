@@ -25,7 +25,8 @@ const config = {
             "$scss/*": "./src/scss/*",
             "$types": "./.svelte-kit/types/src/routes",
             "$types/*": "./.svelte-kit/types/src/routes/*"
-        }
+        },
+        csrf: false
     }
 };
 
