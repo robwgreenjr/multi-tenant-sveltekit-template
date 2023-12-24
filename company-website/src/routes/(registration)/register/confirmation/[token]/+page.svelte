@@ -1,11 +1,12 @@
 <script lang="ts">
     import {clientVariable} from "$lib/global/variables/ClientVariable";
     import {enhance} from '$app/forms';
-    import {snackBar} from "$stores/layouts/snackBar";
-    import {showMessage} from "$lib/global/helpers/FormHelper";
+    import {page} from "$app/stores";
     import Input from "$components/Input/index.svelte";
     import Button from "$components/Button/index.svelte";
     import {AutoCompleteType} from "$lib/global/enums/AutoCompleteType";
+    import {showMessage} from "$lib/global/helpers/FormHelper";
+    import {snackBar} from "$stores/layouts/snackBar";
     import {StyleType} from "$lib/global/enums/StyleType";
     import type {ActionResult} from "@sveltejs/kit";
     import type {ResponseDto} from "$lib/global/dtos/ResponseDto";
@@ -21,12 +22,14 @@
 
 <div class="container">
     <div class="header">
-        <h1>{clientVariable.siteName} Registration</h1>
+        <h1>{clientVariable.siteName}</h1>
     </div>
     <form
-        action="?/register"
+        action="?/confirmTenant"
         method="POST"
-        use:enhance={() => {
+        use:enhance={({formData}) => {
+              formData.set("token", $page.params.token);
+
               return ({ result, update }) => {
                   handleResult(result);
 
@@ -36,8 +39,20 @@
     >
         <Input
             autoComplete={AutoCompleteType.NAME}
-            name="companyName"
-            placeholder="Company Name"
+            name="firstName"
+            placeholder="First Name"
+        />
+
+        <Input
+            autoComplete={AutoCompleteType.NAME}
+            name="lastName"
+            placeholder="Last Name"
+        />
+
+        <Input
+            autoComplete={AutoCompleteType.TEL}
+            name="phone"
+            placeholder="Phone"
         />
 
         <Input
@@ -46,24 +61,17 @@
             placeholder="Email"
         />
 
-        <Input
-            autoComplete={AutoCompleteType.NAME}
-            name="subdomain"
-            placeholder="Subdomain"
-        />
-
         <Button
-            className="green"
             styleType={StyleType.PRIMARY_CTA}
-            title="Register"
+            title="Confirm Account"
             type={ButtonType.SUBMIT}
         />
     </form>
 </div>
 
 <style lang="scss">
-    @import "$scss/_variables.scss";
-    @import "$scss/_mixin.scss";
+    @import "$scss/variables";
+    @import "$scss/mixin";
 
     .container {
         margin: 5rem auto auto;
@@ -84,9 +92,5 @@
 
     .form {
         margin-top: 4rem;
-    }
-
-    button {
-        @include primary-cta-button;
     }
 </style>
